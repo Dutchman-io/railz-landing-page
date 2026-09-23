@@ -26,6 +26,11 @@ CloudFront, or an nginx root. Publish the directory; there is nothing to build.
 - **Colour, type and spacing** are CSS custom properties on `:root`, with the
   dark palette redefined under `prefers-color-scheme` and `[data-theme="dark"]`.
   Change a token, not a rule.
+- **The globe** is a plain `<canvas>` drawn by the script at the bottom of
+  the page. `LAND` is a baked list of land points (Natural Earth 110m, via the
+  `world-atlas` package, sampled on a 2° grid), so nothing is fetched at
+  runtime. The routes it draws come from `PLACES` in the same script; keep
+  that list in step with the destinations the app actually supports.
 - The brand blue is `#0145CE`, the same value as `primaryColor` in the mobile
   app's `app.json`.
 
