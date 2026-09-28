@@ -107,6 +107,9 @@
   .btn-fill:hover{box-shadow:0 20px 38px -16px rgba(1,69,206,.85)}
   .btn-line{border-color:var(--line); background:var(--card); color:var(--ink); box-shadow:var(--shadow)}
   .btn-line:hover{border-color:var(--blue-edge)}
+  .btn-soon{cursor:default; opacity:.6}
+  .btn-soon:hover{transform:none; border-color:var(--line)}
+  .btn-soon:hover::before{animation:none}
   .btn svg,.btn span.lbl{position:relative}
   .btn svg{flex:none}
   .btn span.lbl{display:grid; line-height:1.22; text-align:left}
@@ -289,10 +292,10 @@
             <svg width="21" height="23" viewBox="0 0 24 26" fill="none" aria-hidden="true"><path d="M1.6 1.2 14.3 13 1.6 24.8A2 2 0 0 1 1 23.4V2.6a2 2 0 0 1 .6-1.4Z" fill="currentColor" opacity=".95"/><path d="M17.4 9.9 3.6.3 15.8 7.5l1.6 2.4Z" fill="currentColor" opacity=".72"/><path d="M17.4 16.1 15.8 18.5 3.6 25.7l13.8-9.6Z" fill="currentColor" opacity=".72"/><path d="m17.4 9.9 4.3 2.4a1.4 1.4 0 0 1 0 2.4l-4.3 2.4L14.3 13l3.1-3.1Z" fill="currentColor" opacity=".88"/></svg>
             <span class="lbl"><small>Get it on</small><strong>Google Play</strong></span>
           </a>
-          <a class="btn btn-line" href="https://apps.apple.com/app/id6807885145">
+          <span class="btn btn-line btn-soon" aria-disabled="true">
             <svg width="20" height="23" viewBox="0 0 20 24" fill="none" aria-hidden="true"><path d="M16.4 12.7c0-2.8 2.3-4.2 2.4-4.2-1.3-1.9-3.3-2.2-4-2.2-1.7-.2-3.3 1-4.2 1-.8 0-2.2-1-3.6-1-1.9 0-3.6 1.1-4.5 2.8-1.9 3.3-.5 8.3 1.4 11 .9 1.3 2 2.8 3.4 2.7 1.4-.05 1.9-.9 3.5-.9s2.1.9 3.6.85c1.5 0 2.4-1.3 3.3-2.7 1-1.5 1.5-3 1.5-3.1 0 0-2.8-1.1-2.8-4.25Z" fill="currentColor"/><path d="M13.8 4.4c.75-.9 1.25-2.2 1.1-3.4-1.1.05-2.4.7-3.2 1.6-.7.8-1.3 2.1-1.15 3.3 1.2.1 2.45-.6 3.25-1.5Z" fill="currentColor"/></svg>
-            <span class="lbl"><small>Download on the</small><strong>App Store</strong></span>
-          </a>
+            <span class="lbl"><small>Coming soon to the</small><strong>App Store</strong></span>
+          </span>
         </div>
         <p class="note">Free to download. Verification is needed before your first transfer.</p>
       </div>
@@ -347,7 +350,7 @@
       <p class="label">How it works</p>
       <h2>Three steps, then you’re sending.</h2>
       <ol class="steps">
-        <li><span class="n">01</span><h3>Download and sign up</h3><p>Get Railz from Google Play or the App Store and create your account.</p></li>
+        <li><span class="n">01</span><h3>Download and sign up</h3><p>Get Railz from Google Play and create your account. iOS is coming soon.</p></li>
         <li><span class="n">02</span><h3>Verify once</h3><p>Confirm who you are before your first transfer. You won’t repeat it every time.</p></li>
         <li><span class="n">03</span><h3>Buy, sell, send or get paid</h3><p>See the rate and the fee up front, then confirm. Nothing moves until you do.</p></li>
       </ol>
@@ -421,10 +424,10 @@
             <svg width="21" height="23" viewBox="0 0 24 26" fill="none" aria-hidden="true"><path d="M1.6 1.2 14.3 13 1.6 24.8A2 2 0 0 1 1 23.4V2.6a2 2 0 0 1 .6-1.4Z" fill="currentColor" opacity=".95"/><path d="M17.4 9.9 3.6.3 15.8 7.5l1.6 2.4Z" fill="currentColor" opacity=".72"/><path d="M17.4 16.1 15.8 18.5 3.6 25.7l13.8-9.6Z" fill="currentColor" opacity=".72"/><path d="m17.4 9.9 4.3 2.4a1.4 1.4 0 0 1 0 2.4l-4.3 2.4L14.3 13l3.1-3.1Z" fill="currentColor" opacity=".88"/></svg>
             <span class="lbl"><small>Get it on</small><strong>Google Play</strong></span>
           </a>
-          <a class="btn btn-line" href="https://apps.apple.com/app/id6807885145">
+          <span class="btn btn-line btn-soon" aria-disabled="true">
             <svg width="20" height="23" viewBox="0 0 20 24" fill="none" aria-hidden="true"><path d="M16.4 12.7c0-2.8 2.3-4.2 2.4-4.2-1.3-1.9-3.3-2.2-4-2.2-1.7-.2-3.3 1-4.2 1-.8 0-2.2-1-3.6-1-1.9 0-3.6 1.1-4.5 2.8-1.9 3.3-.5 8.3 1.4 11 .9 1.3 2 2.8 3.4 2.7 1.4-.05 1.9-.9 3.5-.9s2.1.9 3.6.85c1.5 0 2.4-1.3 3.3-2.7 1-1.5 1.5-3 1.5-3.1 0 0-2.8-1.1-2.8-4.25Z" fill="currentColor"/><path d="M13.8 4.4c.75-.9 1.25-2.2 1.1-3.4-1.1.05-2.4.7-3.2 1.6-.7.8-1.3 2.1-1.15 3.3 1.2.1 2.45-.6 3.25-1.5Z" fill="currentColor"/></svg>
-            <span class="lbl"><small>Download on the</small><strong>App Store</strong></span>
-          </a>
+            <span class="lbl"><small>Coming soon to the</small><strong>App Store</strong></span>
+          </span>
         </div>
       </div>
     </div>
@@ -433,7 +436,7 @@
   <div class="wrap">
     <footer>
       <span>Railz &mdash; cross-border payments and stablecoins.</span>
-      <span class="mono">Available on Android &amp; iOS</span>
+      <span class="mono">Available on Android &middot; iOS coming soon</span>
     </footer>
   </div>
 </main>
