@@ -1,6 +1,6 @@
 # railz-landing
 
-The public landing page for Railz. One static file, no build step, no
+The public landing page for ZemFi. One static file, no build step, no
 dependencies — `index.html` is the whole site.
 
 ## Why it is plain HTML
@@ -36,8 +36,8 @@ CloudFront, or an nginx root. Publish the directory; there is nothing to build.
 
 ## No company attribution
 
-The page credits no company, by decision: it is a product page for Railz and
-carries Railz information only. An early draft said "by Dutchman Network" —
+The page credits no company, by decision: it is a product page for ZemFi and
+carries ZemFi information only. An early draft said "by Dutchman Network" —
 that was wrong (Dutchman Network is the upstream payments partner, not the
 owner) and has been removed. Do not reintroduce a company line without being
 asked for one.
@@ -64,5 +64,5 @@ section uses the `Arrival` taxonomy from
 substantively, this page should follow.
 
 No fiat currencies are named anywhere, deliberately: the served catalogue
-currently lists currencies Railz does not provide, so the page says "your local
+currently lists currencies ZemFi does not provide, so the page says "your local
 currency" instead of a list that could be wrong.
