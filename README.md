@@ -70,6 +70,12 @@ into `RECEIVING_SETTLEMENT_ASSET` (`src/modules/receiving/receiving.controller.t
 If payments stop moving on stablecoins, the hero, "How a payment moves" and
 the first two FAQ answers need rewriting.
 
+The CBN lines (the security card, the FAQ and the footer) claim only that
+verification follows the CBN's tiered KYC framework, which is what the backend
+implements (`src/modules/kyc/dto/tier1.dto.ts`, `tier2.dto.ts`). They
+deliberately do not say ZemFi is licensed by the CBN. Add a licence claim only
+with the licence type and number in hand.
+
 No fiat currencies are named anywhere, deliberately: the served catalogue
 currently lists currencies ZemFi does not provide, so the page says "your local
 currency" instead of a list that could be wrong.
