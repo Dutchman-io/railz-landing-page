@@ -63,6 +63,13 @@ section uses the `Arrival` taxonomy from
 `src/modules/currencies/currency.catalogue.ts`. If either changes
 substantively, this page should follow.
 
+The page is positioned around stablecoin-backed payments. That rests on two
+backend facts: a global send carries an `asset` (USDT or USDC, see
+`src/modules/global-send/dto/global-send.dto.ts`), and foreign payments settle
+into `RECEIVING_SETTLEMENT_ASSET` (`src/modules/receiving/receiving.controller.ts`).
+If payments stop moving on stablecoins, the hero, "How a payment moves" and
+the first two FAQ answers need rewriting.
+
 No fiat currencies are named anywhere, deliberately: the served catalogue
 currently lists currencies ZemFi does not provide, so the page says "your local
 currency" instead of a list that could be wrong.
