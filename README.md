@@ -1,4 +1,4 @@
-# railz-landing
+# zemfi-landing
 
 The public landing page for ZemFi. One static file, no build step, no
 dependencies — `index.html` is the whole site.
