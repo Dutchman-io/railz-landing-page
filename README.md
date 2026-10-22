@@ -37,10 +37,9 @@ CloudFront, or an nginx root. Publish the directory; there is nothing to build.
 ## No company attribution
 
 The page credits no company, by decision: it is a product page for ZemFi and
-carries ZemFi information only. An early draft said "by Dutchman Network" —
-that was wrong (Dutchman Network is the upstream payments partner, not the
-owner) and has been removed. Do not reintroduce a company line without being
-asked for one.
+carries ZemFi information only. An early draft credited the upstream
+payments partner — that was wrong (the partner is not the owner) and has been
+removed. Do not reintroduce a company line without being asked for one.
 
 The string `com.dutchmannetwork.railz` still appears once, inside the Google
 Play URL, because that is the app's package id and the link does not resolve
