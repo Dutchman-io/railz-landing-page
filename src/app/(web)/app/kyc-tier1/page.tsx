@@ -16,16 +16,15 @@ import { apiErrorCode, friendlyErrorMessage } from "@/lib/api";
 import {
   KYC_PROFILE_KEY,
   KYC_STATUS_KEY,
-  checkSelfie,
   isSupportedDocument,
   submitTier1,
   toLocalDocument,
   uploadKycDocument,
   useKycSummary,
   type LocalDocument,
-  type SelfieCheck,
 } from "@/lib/kyc";
 import { compressDocument } from "@/lib/compressImage";
+import { SELFIE_ISSUE_TEXT, checkSelfie, preloadSelfieCheck, type SelfieCheckResult } from "@/lib/selfieCheck";
 import { useAuth } from "@/state/auth";
 
 /**
@@ -39,10 +38,9 @@ interface Outcome {
   message: string;
 }
 
-/** The selfie, and its storage key once uploaded (it is uploaded to be checked). */
+/** The selfie, compressed and ready to upload on submit. */
 interface Selfie {
   doc: LocalDocument;
-  storageKey: string | null;
 }
 
 /** yyyy-mm-dd, and a real date — "2026-02-31" parses to March in JS. */
@@ -75,9 +73,6 @@ const earliestBirthday = (): Date => {
   return new Date(now.getFullYear() - 120, now.getMonth(), now.getDate());
 };
 
-/** No face, or someone else in shot, refuse the photo; anything else can be overridden. */
-const isBlocking = (check: SelfieCheck): boolean => check.faceDetected === false || check.multipleFaces === true;
-
 export default function KycTier1Page() {
   const queryClient = useQueryClient();
   const { user } = useAuth();
@@ -106,7 +101,7 @@ export default function KycTier1Page() {
   const [cameraOpen, setCameraOpen] = useState(false);
   const [checkingSelfie, setCheckingSelfie] = useState(false);
   // A photo the check had something to say about, waiting on "Use" or "Retake".
-  const [review, setReview] = useState<{ selfie: Selfie; check: SelfieCheck } | null>(null);
+  const [review, setReview] = useState<{ selfie: Selfie; check: SelfieCheckResult } | null>(null);
   const [photoError, setPhotoError] = useState<string | null>(null);
 
   /**
@@ -144,25 +139,15 @@ export default function KycTier1Page() {
       setPhotoError("That image cannot be used. Take the photo again — JPEG, PNG or WEBP only.");
       return;
     }
+    // Checked in the browser first, so a dark or distant photo is retaken now
+    // rather than failing the face match and waiting on a reviewer.
     setCheckingSelfie(true);
-    // Shrunk before it is uploaded, so a slow connection is not carrying
-    // detail nobody needs.
-    const compressed = await compressDocument(doc, SELFIE_QUALITY);
-    // Uploaded now so the server can check it, so a dark or distant photo is
-    // retaken now rather than failing the face match and waiting on a
-    // reviewer. Advisory: a failed upload or check lets the photo through,
-    // and the upload is retried on submit.
-    let storageKey: string | null = null;
-    let check: SelfieCheck | null = null;
-    try {
-      storageKey = (await uploadKycDocument(compressed)).storageKey;
-      check = await checkSelfie(storageKey);
-    } catch {
-      // Uploaded again on submit, where a failure is reported.
-    }
+    const check = await checkSelfie(file);
+    // Shrunk before it reaches the upload, so a slow connection is not
+    // carrying detail nobody needs.
+    const captured = { doc: await compressDocument(doc, SELFIE_QUALITY) };
     setCheckingSelfie(false);
-    const captured = { doc: compressed, storageKey };
-    if (!check || check.guidance.length === 0) {
+    if (check.issues.length === 0) {
       accept(captured);
       return;
     }
@@ -174,7 +159,7 @@ export default function KycTier1Page() {
     setOutcome(null);
     setSubmitting(true);
     try {
-      const selfieStorageKey = selfie.storageKey ?? (await uploadKycDocument(selfie.doc)).storageKey;
+      const selfieStorageKey = (await uploadKycDocument(selfie.doc)).storageKey;
 
       const result = await submitTier1({
         bvn,
@@ -335,6 +320,7 @@ export default function KycTier1Page() {
                 variant={selfie ? "ghost" : "primary"}
                 onClick={() => {
                   setPhotoError(null);
+                  preloadSelfieCheck();
                   setCameraOpen(true);
                 }}
                 loading={checkingSelfie}
@@ -419,7 +405,7 @@ export default function KycTier1Page() {
       <Modal
         open={!!review}
         onClose={() => setReview(null)}
-        title={review && isBlocking(review.check) ? "Take the photo again" : "This photo may not match"}
+        title={review?.check.blocked ? "Take the photo again" : "This photo may not match"}
         footer={
           review && (
             <>
@@ -432,7 +418,7 @@ export default function KycTier1Page() {
               >
                 Retake
               </Button>
-              {!isBlocking(review.check) && (
+              {!review.check.blocked && (
                 <Button variant="ghost" onClick={() => accept(review.selfie)} block>
                   Use this photo
                 </Button>
@@ -442,8 +428,8 @@ export default function KycTier1Page() {
         }
       >
         <div className="flex flex-col gap-3 text-sm">
-          {review?.check.guidance.map((line) => (
-            <p key={line}>{line}</p>
+          {review?.check.issues.map((issue) => (
+            <p key={issue}>{SELFIE_ISSUE_TEXT[issue]}</p>
           ))}
         </div>
       </Modal>
