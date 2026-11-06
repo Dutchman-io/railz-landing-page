@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+/*
+ * The signed-in app's palette, taken from zemfi-mobile's theme/colors.ts so
+ * the web and the phone look like one product: sky-blue accent, calm
+ * surfaces, hairline borders. Follows the OS colour scheme.
+ */
+:root {
+  --background: #f4f6fa;
+  --foreground: #0b1324;
+  --primary: #0284c7;
+  --primary-hover: #0369a1;
+  --on-primary: #ffffff;
+  --surface: #ffffff;
+  --surface-border: #e4e9f2;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --warning: #c2710c;
+  --muted: #5a6478;
+  --subtle: #98a2b3;
+  --wash: #e0f2fe;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a101c;
+    --foreground: #f5f7fa;
+    --primary: #38bdf8;
+    --primary-hover: #0ea5e9;
+    --on-primary: #0a101c;
+    --surface: #121a2a;
+    --surface-border: #1e2940;
+    --success: #22c55e;
+    --danger: #f05252;
+    --warning: #f5a524;
+    --muted: #8b97ad;
+    --subtle: #5b6882;
+    --wash: #0b1b2e;
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+  --color-surface: var(--surface);
+  --color-border: var(--surface-border);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-wash: var(--wash);
+  --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-public-sans), sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+.input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  color: var(--foreground);
+  padding: 0.65rem 0.9rem;
+  border-radius: 0.75rem;
+  outline: none;
+  font-size: 0.95rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input::placeholder {
+  color: var(--subtle);
+}
+
+.input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 25%, transparent);
+}
+
+.input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+select.input {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b97ad' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  padding-right: 2.25rem;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
