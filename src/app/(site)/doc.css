@@ -1,0 +1,44 @@
+/* Document pages: /careers, /privacy, /terms, /delete-account.
+   Shared tokens and resets are in site.css; keep the two in step. */
+body{line-height:1.65;
+  background:linear-gradient(180deg,var(--ground) 0%,var(--ground-2) 30%,var(--ground-2) 100%)}
+a{color:var(--blue)}
+
+.brand{color:var(--ink)}
+.tile{overflow:hidden; border-radius:9px; background:#fff; flex:none; width:40px; height:40px; padding:2px;
+  box-shadow:0 0 0 1px var(--line),0 8px 20px -10px rgba(1,69,206,.45)}
+.back{font-size:14px; font-weight:500; text-decoration:none}
+.back:hover{text-decoration:underline}
+
+.doc{display:grid; grid-template-columns:220px minmax(0,1fr); gap:clamp(28px,5vw,64px);
+  padding-block:clamp(32px,5vw,56px) clamp(40px,5vw,64px)}
+@media(max-width:860px){.doc{grid-template-columns:1fr}.toc{display:none}}
+.toc{position:sticky; top:24px; align-self:start; font-size:14px}
+.toc p{margin:0 0 10px; font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--muted)}
+.toc ol{list-style:none; margin:0; padding:0; display:grid; gap:7px}
+.toc a{color:var(--ink-2); text-decoration:none}
+.toc a:hover{color:var(--blue)}
+
+.label{margin:0 0 14px; font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--blue)}
+h1{font-family:var(--display); font-weight:800; margin:0; font-size:clamp(2.2rem,5vw,3.2rem);
+  line-height:1.02; letter-spacing:-.04em}
+.meta{margin:14px 0 0; color:var(--muted); font-size:14px}
+.intro{margin:22px 0 0; font-size:1.08rem; color:var(--ink-2); max-width:62ch}
+article{max-width:70ch}
+article section{padding-top:34px; scroll-margin-top:20px}
+h2{font-family:var(--display); font-weight:700; margin:0 0 10px; font-size:1.45rem; letter-spacing:-.025em}
+h3{font-family:var(--display); font-weight:700; margin:20px 0 6px; font-size:1.08rem; letter-spacing:-.02em}
+article p, article li{color:var(--ink-2)}
+article p{margin:0 0 12px}
+/* `ol` is only styled this way on /delete-account in the old pages, and only that
+   page has an <ol> inside <article>, so the shared rule changes nothing elsewhere. */
+article ul, article ol{margin:0 0 12px; padding-left:20px}
+article li{margin-bottom:6px}
+article strong{color:var(--ink); font-weight:600}
+.box{margin:16px 0; padding:16px 18px; border-radius:13px; background:var(--card);
+  border:1px solid var(--line); font-size:15px}
+.box p:last-child{margin:0}
+
+footer a{color:inherit}

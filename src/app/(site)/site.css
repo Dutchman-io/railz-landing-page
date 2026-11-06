@@ -1,0 +1,47 @@
+/* Shared by every marketing page; imported by the (site) layout.
+   Page-specific rules live in home.css (/) and doc.css (/careers, /privacy,
+   /terms, /delete-account). Those two files reuse selectors (body, a, h1, h2,
+   .tile, .label...) with different values, so marketing pages link to each
+   other with plain <a> and every page arrives on a full load with only its
+   own stylesheet. */
+
+/* Palette taken from the app itself: the soft blue-white ground, white cards
+   and #0145CE of the store screenshots. A landing page should not look like
+   a different product than the app it sells. Single light world, painted
+   explicitly so it holds on either host ground.
+   The three font tokens lead with the next/font variables set on <html> by
+   the layout (see src/components/site/fonts.ts). */
+:root{
+  color-scheme:light;
+  --ground:#eef2fb; --ground-2:#f8fafe; --card:#ffffff;
+  --line:#dde5f4; --line-soft:#e8eefa;
+  --ink:#0b1424; --ink-2:#39455c; --muted:#6b7893;
+  --blue:#0145ce; --blue-bright:#1a63f0; --blue-wash:#e7eefd; --blue-edge:#c3d6fb;
+  --amber:#b06f00; --amber-wash:#fdf3e0;
+  --display:var(--font-display),"Helvetica Neue",Arial,sans-serif;
+  --body:var(--font-body),-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:var(--font-mono),ui-monospace,"SF Mono",Menlo,monospace;
+  --gut:clamp(22px,6.5vw,80px);
+  --shadow:0 1px 2px rgba(11,20,36,.04),0 18px 40px -22px rgba(11,20,36,.28);
+}
+*{box-sizing:border-box}
+img{max-width:100%}
+[hidden]{display:none!important}
+body{
+  margin:0; color:var(--ink); font-family:var(--body); font-size:16.5px;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.wrap{width:100%; max-width:1100px; margin-inline:auto; padding-inline:var(--gut)}
+:focus-visible{outline:2px solid var(--blue); outline-offset:3px; border-radius:5px}
+
+/* ── masthead ─────────────────────────────────── */
+.mast{display:flex; align-items:center; justify-content:space-between; gap:18px;
+  padding-block:18px; border-bottom:1px solid var(--line-soft)}
+.brand{display:inline-flex; align-items:center; gap:11px; text-decoration:none}
+.tile img{display:block; width:100%; height:100%; object-fit:contain}
+.word{font-family:var(--display); font-weight:800; font-size:27px; letter-spacing:-.03em}
+.word b{color:var(--blue); font-weight:800}
+
+footer{border-top:1px solid var(--line-soft); padding-block:26px 40px; display:flex;
+  flex-wrap:wrap; gap:10px 28px; align-items:baseline; justify-content:space-between;
+  color:var(--muted); font-size:13px}

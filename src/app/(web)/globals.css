@@ -69,6 +69,8 @@ body {
   line-height: 1.5;
 }
 
+/* In a layer, so Tailwind utilities on the same element (w-20, pr-16...) win. */
+@layer components {
 .input {
   width: 100%;
   background: var(--surface);
@@ -100,6 +102,8 @@ select.input {
   background-repeat: no-repeat;
   background-position: right 0.85rem center;
   padding-right: 2.25rem;
+}
+
 }
 
 .tabular {

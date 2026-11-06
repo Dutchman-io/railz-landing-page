@@ -36,7 +36,7 @@ export interface LocalDocument {
 
 // Server-side allow-list (uploads.controller.ts), checked there by the file's
 // actual bytes rather than its name. Anything else (HEIC included) is a 400.
-const ALLOWED_MIME = [
+export const ALLOWED_MIME = [
   "application/pdf",
   "image/jpeg",
   "image/png",
