@@ -1,52 +1,55 @@
 @import "tailwindcss";
 
 /*
- * The signed-in app's palette: the landing page's brand (#0145CE, the soft
- * blue-white ground, white cards with a long soft shadow), so signing in does
- * not feel like arriving in a different product. Dark mode keeps the same
- * blue, lifted so it reads on a navy ground. Follows the OS colour scheme.
+ * The signed-in app's palette, matching the mobile app (zemfi-mobile
+ * src/theme/colors.ts): sky blue as the one accent (2026-11-05), with the
+ * logo/globe re-tinted to the same sky blue (2026-11-15). Light mode uses
+ * #0284C7, the brightest sky shade white text stays readable on; dark mode
+ * uses the brighter #38BDF8 with dark-ground text on it. Follows the OS
+ * colour scheme.
  */
 :root {
-  --background: #eef2fb;
-  --foreground: #0b1424;
-  --primary: #0145ce;
-  --primary-hover: #0139ab;
-  --primary-bright: #1a63f0;
+  --background: #f4f6fa;
+  --foreground: #0b1324;
+  --primary: #0284c7;
+  --primary-hover: #0369a1;
+  --primary-bright: #0ea5e9;
   --on-primary: #ffffff;
   --surface: #ffffff;
-  --surface-border: #dde5f4;
-  --success: #12935a;
-  --danger: #d92d3a;
-  --warning: #b06f00;
-  --muted: #5d6a85;
-  --subtle: #95a1b8;
-  --wash: #e7eefd;
-  --glow: rgba(26, 99, 240, 0.16);
-  --shadow: 0 1px 2px rgba(11, 20, 36, 0.04), 0 18px 40px -24px rgba(11, 20, 36, 0.28);
-  /* The hero: deep navy into the brand blue, as on the landing page's buttons. */
-  --hero: linear-gradient(135deg, #0a1f5c 0%, #0145ce 55%, #1a63f0 100%);
+  --surface-border: #e4e9f2;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --warning: #c2710c;
+  --muted: #5a6478;
+  --subtle: #98a2b3;
+  --wash: #e0f2fe;
+  --glow: rgba(14, 165, 233, 0.14);
+  --shadow: 0 1px 2px rgba(11, 19, 36, 0.04), 0 18px 40px -24px rgba(11, 19, 36, 0.28);
+  /* The hero: deep sky into the accent; white text stays readable across it. */
+  --hero: linear-gradient(135deg, #0c4a6e 0%, #0369a1 50%, #0284c7 100%);
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #070d1a;
-    --foreground: #eef2fb;
-    --primary: #4d8bff;
-    --primary-hover: #6b9fff;
-    --primary-bright: #7fb0ff;
-    --on-primary: #ffffff;
-    --surface: #0f1729;
-    --surface-border: #1d2a45;
-    --success: #34d399;
-    --danger: #f87171;
-    --warning: #fbbf24;
-    --muted: #93a0bb;
-    --subtle: #5e6b87;
-    --wash: #132347;
-    --glow: rgba(77, 139, 255, 0.18);
+    --background: #0a101c;
+    --foreground: #f5f7fa;
+    --primary: #38bdf8;
+    --primary-hover: #0ea5e9;
+    --primary-bright: #7dd3fc;
+    /* Text on the bright sky accent is the dark ground colour, as on mobile. */
+    --on-primary: #0a101c;
+    --surface: #121a2a;
+    --surface-border: #1e2940;
+    --success: #22c55e;
+    --danger: #f05252;
+    --warning: #f5a524;
+    --muted: #8b97ad;
+    --subtle: #5b6882;
+    --wash: #0b1b2e;
+    --glow: rgba(56, 189, 248, 0.14);
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 18px 40px -24px rgba(0, 0, 0, 0.7);
-    --hero: linear-gradient(135deg, #071538 0%, #0b3aa8 55%, #1a63f0 100%);
+    --hero: linear-gradient(135deg, #082f49 0%, #075985 55%, #0369a1 100%);
     color-scheme: dark;
   }
 }

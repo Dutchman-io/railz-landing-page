@@ -6,7 +6,7 @@ a{color:var(--blue)}
 
 .brand{color:var(--ink)}
 .tile{overflow:hidden; border-radius:9px; background:#fff; flex:none; width:40px; height:40px; padding:2px;
-  box-shadow:0 0 0 1px var(--line),0 8px 20px -10px rgba(1,69,206,.45)}
+  box-shadow:0 0 0 1px var(--line),0 8px 20px -10px rgba(2,132,199,.45)}
 .back{font-size:14px; font-weight:500; text-decoration:none}
 .back:hover{text-decoration:underline}
 

@@ -77,7 +77,7 @@ export default function DashboardPage() {
   return (
     <div>
       {/* The balance leads, on the brand gradient: the one number the app exists to show. */}
-      <section className="relative overflow-hidden rounded-[2rem] bg-hero p-6 text-white shadow-[0_30px_60px_-30px_rgba(1,69,206,0.8)] sm:p-9">
+      <section className="relative overflow-hidden rounded-[2rem] bg-hero p-6 text-white shadow-[0_30px_60px_-30px_rgba(2,132,199,0.7)] sm:p-9">
         {/* A dotted globe edge and a glow, after the landing page's hero. */}
         <div
           aria-hidden="true"

@@ -27,7 +27,7 @@ const tile =
 
 /** Each action in its own colour, so the row reads at a glance. */
 const HUES: Record<string, string> = {
-  Send: "from-[#1a63f0] to-[#0145ce] shadow-[#0145ce]/40",
+  Send: "from-[#0ea5e9] to-[#0284c7] shadow-[#0284c7]/40",
   Receive: "from-emerald-400 to-emerald-600 shadow-emerald-600/40",
   Convert: "from-violet-400 to-violet-600 shadow-violet-600/40",
   Tokens: "from-amber-400 to-orange-500 shadow-orange-500/40",

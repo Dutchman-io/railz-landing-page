@@ -17,7 +17,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#eef2fb",
+  themeColor: "#f4f6fa",
 };
 
 // Runs before first paint, as the old <head> script did: the scroll reveal

@@ -45,10 +45,10 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-dvh lg:flex">
       {/* The brand panel: deep navy into blue, the landing page's hero colours. */}
-      <aside className="sticky top-0 hidden h-dvh w-68 shrink-0 flex-col overflow-hidden bg-gradient-to-b from-[#071538] via-[#0a2370] to-[#0b3aa8] px-4 py-7 text-white lg:flex">
+      <aside className="sticky top-0 hidden h-dvh w-68 shrink-0 flex-col overflow-hidden bg-gradient-to-b from-[#082f49] via-[#0c4a6e] to-[#0369a1] px-4 py-7 text-white lg:flex">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -right-24 -bottom-24 size-72 rounded-full bg-[#1a63f0] opacity-40 blur-3xl"
+          className="pointer-events-none absolute -right-24 -bottom-24 size-72 rounded-full bg-[#0ea5e9] opacity-40 blur-3xl"
         />
         <div className="relative px-3">
           <Logo href="/app" onDark />
@@ -59,7 +59,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               key={item.href}
               href={item.href}
               aria-current={isActive(pathname, item.href) ? "page" : undefined}
-              className="flex items-center gap-3 rounded-2xl px-3.5 py-2.5 text-[0.95rem] font-medium text-white/65 transition-colors hover:bg-white/10 hover:text-white aria-[current=page]:bg-white aria-[current=page]:text-[#0145ce] aria-[current=page]:shadow-lg"
+              className="flex items-center gap-3 rounded-2xl px-3.5 py-2.5 text-[0.95rem] font-medium text-white/65 transition-colors hover:bg-white/10 hover:text-white aria-[current=page]:bg-white aria-[current=page]:text-[#0284c7] aria-[current=page]:shadow-lg"
             >
               {item.icon}
               {item.label}
@@ -67,7 +67,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           ))}
         </nav>
         <div className="relative flex items-center gap-3 rounded-2xl bg-white/10 p-3 backdrop-blur">
-          <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-sky-300 to-[#1a63f0] font-display text-sm font-bold text-white">
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-sky-300 to-[#0284c7] font-display text-sm font-bold text-white">
             {initials(user?.firstName, user?.lastName, user?.email)}
           </span>
           <div className="min-w-0 flex-1">
