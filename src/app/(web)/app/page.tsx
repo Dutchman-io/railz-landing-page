@@ -76,40 +76,48 @@ export default function DashboardPage() {
 
   return (
     <div>
-      <h1 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">Hi {user?.firstName ?? "there"}</h1>
+      {/* The balance leads, on the brand gradient: the one number the app exists to show. */}
+      <section className="relative overflow-hidden rounded-[2rem] bg-hero p-6 text-white shadow-[0_30px_60px_-30px_rgba(2,132,199,0.7)] sm:p-9">
+        {/* A dotted globe edge and a glow, after the landing page's hero. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-24 -right-20 size-80 rounded-full opacity-40 [background-image:radial-gradient(rgba(255,255,255,0.55)_1.2px,transparent_1.3px)] [background-size:12px_12px] [mask-image:radial-gradient(circle,black_45%,transparent_70%)]"
+        />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-28 -left-16 size-72 rounded-full bg-sky-400/30 blur-3xl" />
 
-      {/* The balance leads, unboxed: the one number the app exists to show. */}
-      <section className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div className="min-w-0">
-          <div className="flex items-center gap-2">
-            <p className="text-sm text-muted">Total balance</p>
-            <button
-              type="button"
-              onClick={toggleBalanceHidden}
-              aria-label={balanceHidden ? "Show balance" : "Hide balance"}
-              className="-m-2 p-2 text-muted hover:text-foreground"
-            >
-              {eye(balanceHidden)}
-            </button>
+        <div className="relative flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0">
+            <p className="font-display text-lg font-semibold text-white/85">Hi {user?.firstName ?? "there"} 👋</p>
+            <div className="mt-6 flex items-center gap-2">
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-white/70">Total balance</p>
+              <button
+                type="button"
+                onClick={toggleBalanceHidden}
+                aria-label={balanceHidden ? "Show balance" : "Hide balance"}
+                className="-m-2 p-2 text-white/70 hover:text-white"
+              >
+                {eye(balanceHidden)}
+              </button>
+            </div>
+            <p className="mt-1 truncate font-display text-5xl font-bold tracking-tight tabular sm:text-6xl">
+              {balanceHidden ? "••••••" : balance}
+            </p>
+            {!balanceHidden && total.amount !== null && total.unpriced.length > 0 && (
+              <p className="mt-2 text-sm text-white/70">Excluding {total.unpriced.join(", ")}: no rate available</p>
+            )}
+            {!balanceHidden && total.amount === null && (
+              <p className="mt-2 text-sm text-white/70">We could not price your balance just now.</p>
+            )}
           </div>
-          <p className="mt-1 truncate font-display text-4xl font-bold tracking-tight tabular sm:text-5xl">
-            {balanceHidden ? "••••••" : balance}
-          </p>
-          {!balanceHidden && total.amount !== null && total.unpriced.length > 0 && (
-            <p className="mt-1 text-sm text-subtle">Excluding {total.unpriced.join(", ")}: no rate available</p>
-          )}
-          {!balanceHidden && total.amount === null && (
-            <p className="mt-1 text-sm text-subtle">We could not price your balance just now.</p>
+          {currencyOptions.length > 1 && (
+            <div className="sm:w-56 [&_option]:text-black [&_select]:border-white/25 [&_select]:bg-white/15 [&_select]:text-white [&_select]:backdrop-blur">
+              <CurrencyPicker options={currencyOptions} value={balanceCurrency} onChange={pickCurrency} />
+            </div>
           )}
         </div>
-        {currencyOptions.length > 1 && (
-          <div className="sm:w-56">
-            <CurrencyPicker options={currencyOptions} value={balanceCurrency} onChange={pickCurrency} />
-          </div>
-        )}
       </section>
 
-      <nav aria-label="Quick actions" className="mt-6 grid grid-cols-3 gap-3 sm:grid-cols-5">
+      <nav aria-label="Quick actions" className="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-5">
         <FeatureAction features={features} featureKey={["global_send", "crypto_send"]} label="Send" href="/app/send" icon={ICONS.send} />
         <FeatureAction features={features} featureKey={["receiving", "funding"]} label="Receive" href="/app/receive" icon={ICONS.receive} />
         {/* The converter is both directions: gone only when BOTH are off. */}
@@ -165,7 +173,7 @@ export default function DashboardPage() {
           <ListGroup>
             <ListRow
               left={
-                <span className="flex size-10 items-center justify-center rounded-full bg-wash text-primary">{ICONS.bank}</span>
+                <span className="flex size-10 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-primary text-white">{ICONS.bank}</span>
               }
               title="Bank accounts"
               subtitle="Where your withdrawals go"

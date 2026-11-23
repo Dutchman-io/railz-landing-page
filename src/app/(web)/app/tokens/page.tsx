@@ -417,7 +417,10 @@ function SendForm({ holding }: { holding: TokenHolding }) {
 
   const value = parseAmount(amount);
   const tooMuch = value !== null && value > holding.balance;
-  const needsCode = !!twoFactorEnabled;
+  // Asked for up front with an authenticator app; on the web without one,
+  // once the server has emailed a code.
+  const [codeAsked, setCodeAsked] = useState(false);
+  const needsCode = !!twoFactorEnabled || codeAsked;
 
   const getQuote = async () => {
     if (value === null) return;
@@ -459,8 +462,9 @@ function SendForm({ holding }: { holding: TokenHolding }) {
       );
     } catch (err) {
       if (isTwoFactorRequired(err)) {
+        setCodeAsked(true);
         setCode("");
-        setMessage(twoFactorMessage(!!sentCode));
+        setMessage(twoFactorMessage(!!sentCode, err));
       } else {
         setMessage(friendlyErrorMessage(err, "The send did not go through."));
       }
@@ -521,7 +525,7 @@ function SendForm({ holding }: { holding: TokenHolding }) {
             </Alert>
           ) : (
             <>
-              {needsCode && <CodeInput label="Authenticator code" value={code} onChange={(e) => setCode(e.target.value)} />}
+              {needsCode && <CodeInput label="Security code" value={code} onChange={(e) => setCode(e.target.value)} />}
               <Button onClick={() => void confirm()} loading={busy} disabled={needsCode && code.trim().length !== 6}>
                 Confirm send
               </Button>

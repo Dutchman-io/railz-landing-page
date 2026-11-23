@@ -37,7 +37,7 @@ export function Modal({
       onClick={(e) => {
         if (e.target === ref.current) onClose();
       }}
-      className="m-0 mt-auto w-full max-w-none rounded-t-3xl border border-border bg-surface p-0 text-foreground backdrop:bg-black/50 sm:m-auto sm:max-w-md sm:rounded-3xl"
+      className="m-0 mt-auto w-full max-w-none rounded-t-3xl border border-border bg-surface p-0 shadow-2xl text-foreground backdrop:bg-black/50 sm:m-auto sm:max-w-md sm:rounded-3xl"
     >
       <div className="flex max-h-[85dvh] flex-col">
         {title && (

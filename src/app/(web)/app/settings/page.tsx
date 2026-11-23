@@ -91,7 +91,7 @@ export default function SettingsPage() {
           </Section>
 
           <Section label="Security">
-            <p>Add an authenticator app for sign-in and withdrawals.</p>
+            <p>Add an authenticator app for sign-in and withdrawals. Until you do, ZemFi on the web emails you a code instead.</p>
             <ButtonLink href="/app/two-factor" variant="secondary">
               Two-factor authentication
             </ButtonLink>

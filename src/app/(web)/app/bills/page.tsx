@@ -14,7 +14,7 @@ import { Pill } from "@/components/convert/Chips";
 import { friendlyErrorMessage } from "@/lib/api";
 import { featureState, useFeatures } from "@/lib/features";
 import { useActionReference } from "@/lib/idempotency";
-import { isTwoFactorRequired, twoFactorMessage } from "@/lib/twoFactor";
+import { isEmailCode, isTwoFactorRequired, twoFactorMessage } from "@/lib/twoFactor";
 import { BALANCES_KEY, balanceOf, useBalances } from "@/lib/wallet";
 import { formatMoney } from "@/lib/currency";
 import { useAuth } from "@/state/auth";
@@ -277,8 +277,8 @@ function BillsForm() {
         setNeeds2fa(true);
         setTwoFactorCode("");
         setPayNotice({
-          title: sentCode ? "Code not accepted" : "Two-factor required",
-          body: twoFactorMessage(!!sentCode),
+          title: sentCode ? "Code not accepted" : isEmailCode(err) ? "Check your email" : "Two-factor required",
+          body: twoFactorMessage(!!sentCode, err),
         });
       } else {
         setPayNotice({
@@ -458,7 +458,7 @@ function BillsForm() {
         )}
 
         {needs2fa ? (
-          <CodeInput label="Authenticator code" value={twoFactorCode} onChange={(e) => setTwoFactorCode(e.target.value)} />
+          <CodeInput label="Security code" value={twoFactorCode} onChange={(e) => setTwoFactorCode(e.target.value)} />
         ) : null}
 
         {formError ? <Alert>{formError}</Alert> : null}
