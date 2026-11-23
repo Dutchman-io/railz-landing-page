@@ -47,7 +47,7 @@ import { PurposeSection } from "./PurposeSection";
 import { Segment } from "./Segment";
 import { RecipientChips } from "./RecipientChips";
 import { recipientBeneficiary, recipientProblems, type RecipientValues } from "./RecipientSchemaFields";
-import { EMPTY_PAYOUT_FIELDS, globalFeeRows, type PayoutFields } from "./payout";
+import { EMPTY_PAYOUT_FIELDS, type PayoutFields } from "./payout";
 
 const ADDRESS_LABEL: Record<string, string> = {
   street: "recipient's street address",
@@ -636,16 +636,14 @@ export function FiatSend({ asset }: { asset: string }) {
           : []),
         ...(globalQuote
           ? ([
-              ["Amount", money(globalQuote.sourceAmount, globalQuote.sourceCurrency)],
-              ...globalFeeRows(globalQuote, money),
+              // Just the two figures: fees are already out of what they receive.
+              ["You send", money(globalQuote.sourceAmount, globalQuote.sourceCurrency)],
               [
-                "Recipient gets",
+                "They receive",
                 globalQuote.estimatedDestinationAmount !== null
                   ? `≈ ${money(globalQuote.estimatedDestinationAmount, globalQuote.destinationCurrency)}`
                   : `Set in ${globalQuote.destinationCurrency} at payout`,
               ],
-              // The stablecoin the money travels as: the rail, not what is paid or received.
-              ["Travels as", money(globalQuote.assetAmount, globalQuote.asset)],
             ] satisfies ReviewRow[])
           : []),
       ];
