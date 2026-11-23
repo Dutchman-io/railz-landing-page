@@ -10,13 +10,15 @@ type Size = "md" | "sm";
 const base =
   "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary";
 const variants: Record<Variant, string> = {
-  primary: "bg-primary text-on-primary hover:bg-primary-hover",
-  secondary: "bg-surface text-foreground border border-border hover:border-primary",
+  // The landing page's filled button: a lit gradient with a blue shadow under it.
+  primary:
+    "bg-gradient-to-b from-primary-bright to-primary text-on-primary shadow-[0_12px_28px_-14px_var(--primary)] hover:shadow-[0_18px_34px_-14px_var(--primary)] hover:brightness-110 active:brightness-95",
+  secondary: "bg-surface text-foreground border border-border shadow-card hover:border-primary hover:text-primary",
   ghost: "text-primary hover:bg-wash",
   danger: "bg-danger text-white hover:opacity-90",
 };
 const sizes: Record<Size, string> = {
-  md: "h-11 px-5 text-[0.95rem]",
+  md: "h-12 px-6 text-[0.95rem]",
   sm: "h-9 px-3.5 text-sm",
 };
 

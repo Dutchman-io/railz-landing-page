@@ -124,7 +124,7 @@ export function Globe() {
       ctx!.arcTo(x, y + h, x, y, r);
       ctx!.arcTo(x, y, x + w, y, r);
       ctx!.closePath();
-      ctx!.fillStyle = strong ? "#0145ce" : "#ffffff";
+      ctx!.fillStyle = strong ? "#0284c7" : "#ffffff";
       ctx!.shadowColor = "rgba(11,20,36,.18)";
       ctx!.shadowBlur = 10 * dpr;
       ctx!.fill();
@@ -140,14 +140,14 @@ export function Globe() {
       c2.clearRect(0, 0, W, H);
       const g = c2.createRadialGradient(cx - R * 0.35, cy - R * 0.4, R * 0.1, cx, cy, R);
       g.addColorStop(0, "#ffffff");
-      g.addColorStop(0.65, "#eaf0fd");
-      g.addColorStop(1, "#cfdcf7");
+      g.addColorStop(0.65, "#e6f5fe");
+      g.addColorStop(1, "#bae6fd");
       c2.beginPath();
       c2.arc(cx, cy, R, 0, 7);
       c2.fillStyle = g;
       c2.fill();
       c2.lineWidth = dpr;
-      c2.strokeStyle = "rgba(1,69,206,.16)";
+      c2.strokeStyle = "rgba(2,132,199,.16)";
       c2.stroke();
 
       // land, in four depth bands so the limb fades without a fill per dot
@@ -164,7 +164,7 @@ export function Globe() {
           c2.moveTo(L[j] + rr, L[j + 1]);
           c2.arc(L[j], L[j + 1], rr, 0, 7);
         }
-        c2.fillStyle = "rgba(1,69,206," + (0.2 + b * 0.17) + ")";
+        c2.fillStyle = "rgba(2,132,199," + (0.2 + b * 0.17) + ")";
         c2.fill();
       }
 
@@ -186,7 +186,7 @@ export function Globe() {
           } else pen = false;
         }
         c2.lineWidth = (on ? 2.2 : 1.1) * dpr;
-        c2.strokeStyle = on ? "rgba(1,69,206,.9)" : "rgba(1,69,206,.2)";
+        c2.strokeStyle = on ? "rgba(2,132,199,.9)" : "rgba(2,132,199,.2)";
         c2.stroke();
       }
       if (!reduce && grow >= 1) {
@@ -198,7 +198,7 @@ export function Globe() {
           if (!seen(c)) continue;
           c2.beginPath();
           c2.arc(c[0], c[1], (3.2 - s * 0.18) * dpr, 0, 7);
-          c2.fillStyle = "rgba(26,99,240," + (0.85 - s * 0.06) + ")";
+          c2.fillStyle = "rgba(14,165,233," + (0.85 - s * 0.06) + ")";
           c2.fill();
         }
       }
@@ -226,9 +226,9 @@ export function Globe() {
         c2.fill();
         return [x, y];
       }
-      for (let e = 0; e < dests.length; e++) if (e !== active) pin(dests[e].v, "rgba(1,69,206,1)", false);
+      for (let e = 0; e < dests.length; e++) if (e !== active) pin(dests[e].v, "rgba(2,132,199,1)", false);
       const hp = pin(home, "rgba(176,111,0,1)", true);
-      const ap = pin(dests[active].v, "rgba(1,69,206,1)", true);
+      const ap = pin(dests[active].v, "rgba(2,132,199,1)", true);
       if (hp) pill("You", hp[0], hp[1], false);
       if (ap && grow > 0.6) pill(dests[active].name, ap[0], ap[1], true);
     }

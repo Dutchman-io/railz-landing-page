@@ -295,6 +295,9 @@ async function rawRequest<T>(
   // refresh too, since that is when the session row is written.
   const deviceLabel = getDeviceLabel();
   if (deviceLabel) headers["X-Device-Name"] = deviceLabel;
+  // The backend records a session started with this as a web session, which
+  // needs a second factor (an emailed code, without an authenticator app).
+  headers["X-Client"] = "web";
   if (!multipart) headers["Content-Type"] = "application/json";
   if (token && !isPublicEndpoint) headers.Authorization = `Bearer ${token}`;
   if (options.idempotencyKey)

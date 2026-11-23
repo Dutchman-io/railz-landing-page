@@ -6,17 +6,17 @@
    own stylesheet. */
 
 /* Palette taken from the app itself: the soft blue-white ground, white cards
-   and #0145CE of the store screenshots. A landing page should not look like
+   and the sky-blue accent (#0284C7 on light) of the app. A landing page should not look like
    a different product than the app it sells. Single light world, painted
    explicitly so it holds on either host ground.
    The three font tokens lead with the next/font variables set on <html> by
    the layout (see src/components/site/fonts.ts). */
 :root{
   color-scheme:light;
-  --ground:#eef2fb; --ground-2:#f8fafe; --card:#ffffff;
-  --line:#dde5f4; --line-soft:#e8eefa;
+  --ground:#f4f6fa; --ground-2:#f8fafe; --card:#ffffff;
+  --line:#e4e9f2; --line-soft:#edf1f7;
   --ink:#0b1424; --ink-2:#39455c; --muted:#6b7893;
-  --blue:#0145ce; --blue-bright:#1a63f0; --blue-wash:#e7eefd; --blue-edge:#c3d6fb;
+  --blue:#0284c7; --blue-bright:#0ea5e9; --blue-wash:#e0f2fe; --blue-edge:#bae6fd;
   --amber:#b06f00; --amber-wash:#fdf3e0;
   --display:var(--font-display),"Helvetica Neue",Arial,sans-serif;
   --body:var(--font-body),-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;

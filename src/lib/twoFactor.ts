@@ -40,12 +40,25 @@ export async function disableTwoFactor(token: string): Promise<void> {
   await api.post('/authentication/2fa/disable', { token }, { retry: false });
 }
 
-// A 403 with this code means the action needs a fresh authenticator code.
+// A 403 with one of these codes means the action needs a fresh code: from the
+// authenticator app (TWO_FACTOR_REQUIRED), or -- on the web, for a user
+// without one -- the code we just emailed (EMAIL_OTP_REQUIRED). Both are
+// answered the same way: ask for the code and repeat the request with it.
 export function isTwoFactorRequired(err: unknown): boolean {
   const e = err as ApiError;
   if (e?.status !== 403) return false;
   const code = (e.data as { code?: string } | undefined)?.code;
-  return code === 'TWO_FACTOR_REQUIRED' || /two-factor/i.test(e.message ?? '');
+  return (
+    code === 'TWO_FACTOR_REQUIRED' ||
+    code === 'EMAIL_OTP_REQUIRED' ||
+    /two-factor/i.test(e.message ?? '')
+  );
+}
+
+/** The code was emailed (web, no authenticator app), not from an app. */
+export function isEmailCode(err: unknown): boolean {
+  const e = err as ApiError;
+  return (e?.data as { code?: string } | undefined)?.code === 'EMAIL_OTP_REQUIRED';
 }
 
 /** First ask: no code has been sent for this action yet. */
@@ -60,6 +73,13 @@ export const TWO_FACTOR_PROMPT =
 export const TWO_FACTOR_RETRY_MESSAGE =
   'That code was already used or has expired. Enter the next code from your authenticator.';
 
-/** What to tell the user after a TWO_FACTOR_REQUIRED refusal. */
-export const twoFactorMessage = (codeWasSent: boolean): string =>
-  codeWasSent ? TWO_FACTOR_RETRY_MESSAGE : TWO_FACTOR_PROMPT;
+/**
+ * What to tell the user after the refusal. For an emailed code the server's
+ * own sentence says what happened (sent, wrong, expired, a new one sent).
+ */
+export const twoFactorMessage = (codeWasSent: boolean, err?: unknown): string =>
+  isEmailCode(err) && (err as ApiError).message
+    ? (err as ApiError).message
+    : codeWasSent
+      ? TWO_FACTOR_RETRY_MESSAGE
+      : TWO_FACTOR_PROMPT;

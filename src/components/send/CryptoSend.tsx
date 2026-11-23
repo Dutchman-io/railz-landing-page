@@ -156,7 +156,7 @@ export function CryptoSend({
         setTwoFactorCode("");
         setPrompt({
           title: sentCode ? "Code not accepted" : "Two-factor required",
-          message: twoFactorMessage(!!sentCode),
+          message: twoFactorMessage(!!sentCode, err),
         });
       } else {
         setPrompt({
@@ -321,7 +321,7 @@ export function CryptoSend({
           </div>
         )}
         {needs2fa && (
-          <CodeInput label="Authenticator code" value={twoFactorCode} onChange={(e) => setTwoFactorCode(e.target.value)} />
+          <CodeInput label="Security code" value={twoFactorCode} onChange={(e) => setTwoFactorCode(e.target.value)} />
         )}
         {cryptoStopped && (
           <p className="text-sm text-warning">

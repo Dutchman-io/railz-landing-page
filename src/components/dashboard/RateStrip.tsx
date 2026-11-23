@@ -31,7 +31,7 @@ export function RateStrip({ asset }: { asset?: string }) {
     <Link
       href="/app/convert"
       aria-label="Open the converter"
-      className="flex items-center gap-4 rounded-2xl border border-border bg-surface px-5 py-4 transition-colors hover:border-primary"
+      className="flex items-center gap-4 rounded-3xl border border-border/70 bg-surface shadow-card px-5 py-4 transition-colors hover:border-primary"
     >
       <div className="flex-1">
         <p className="text-xs text-muted">Buy {priced}</p>

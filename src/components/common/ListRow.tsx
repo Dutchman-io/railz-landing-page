@@ -63,14 +63,14 @@ export function ListRow({
 /** Rows grouped on one card, divided by hairlines. */
 export function ListGroup({ children }: { children: ReactNode }) {
   const rows = Children.toArray(children).filter(Boolean);
-  return <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface">{rows}</div>;
+  return <div className="divide-y divide-border/70 overflow-hidden rounded-3xl border border-border/70 bg-surface shadow-card">{rows}</div>;
 }
 
 /** A quiet heading above a group, with an optional action on the right. */
 export function SectionHeader({ title, action }: { title: string; action?: ReactNode }) {
   return (
     <div className="mb-2 mt-8 flex items-center justify-between px-1">
-      <h2 className="text-sm font-semibold uppercase tracking-wider text-muted">{title}</h2>
+      <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-primary">{title}</h2>
       {action}
     </div>
   );

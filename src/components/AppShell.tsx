@@ -24,7 +24,7 @@ export const NAV: NavItem[] = [
   { href: "/app/send", label: "Send", icon: icon("M5 12h14M13 6l6 6-6 6"), mobile: true },
   { href: "/app/receive", label: "Receive", icon: icon("M19 12H5M11 6l-6 6 6 6") },
   { href: "/app/convert", label: "Convert", icon: icon("M7 7h11l-3-3M17 17H6l3 3"), mobile: true },
-  { href: "/app/tokens", label: "Stablecoins", icon: icon("M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 4v10M9 9.5c0-1 1.3-1.8 3-1.8s3 .8 3 1.8-1.3 1.6-3 2-3 1-3 2 1.3 1.8 3 1.8 3-.8 3-1.8") },
+  { href: "/app/tokens", label: "Tokens", icon: icon("M9 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12ZM18.1 10.4a6 6 0 1 1-7.7 7.7M7 7h2v4") },
   { href: "/app/bills", label: "Bills", icon: icon("M6 3h12v18l-3-2-3 2-3-2-3 2V3Zm3 5h6M9 12h6") },
   { href: "/app/history", label: "History", icon: icon("M12 7v5l3 2M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"), mobile: true },
   { href: "/app/bank-accounts", label: "Bank accounts", icon: icon("M3 10h18M5 10v8M9 10v8M15 10v8M19 10v8M3 21h18M12 3 3 8h18l-9-5Z") },
@@ -34,65 +34,80 @@ export const NAV: NavItem[] = [
 const isActive = (pathname: string, href: string) =>
   href === "/app" ? pathname === "/app" : pathname === href || pathname.startsWith(`${href}/`);
 
+const initials = (first?: string | null, last?: string | null, email?: string | null) =>
+  ((first?.[0] ?? "") + (last?.[0] ?? "")).toUpperCase() || (email?.[0] ?? "?").toUpperCase();
+
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const { user, signOut, stale } = useAuth();
+  const name = user ? `${user.firstName ?? ""} ${user.lastName ?? ""}`.trim() || user.email : "";
 
   return (
     <div className="min-h-dvh lg:flex">
-      <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col border-r border-border bg-surface px-4 py-6 lg:flex">
-        <div className="px-2">
-          <Logo href="/app" />
+      {/* The brand panel: deep navy into blue, the landing page's hero colours. */}
+      <aside className="sticky top-0 hidden h-dvh w-68 shrink-0 flex-col overflow-hidden bg-hero px-4 py-7 text-white lg:flex">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-24 -bottom-24 size-72 rounded-full bg-[#7cb8e0] opacity-30 blur-3xl"
+        />
+        <div className="relative px-3">
+          <Logo href="/app" onDark />
         </div>
-        <nav className="mt-8 flex flex-1 flex-col gap-1" aria-label="Main">
+        <nav className="relative mt-10 flex flex-1 flex-col gap-1" aria-label="Main">
           {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               aria-current={isActive(pathname, item.href) ? "page" : undefined}
-              className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-colors hover:bg-wash hover:text-foreground aria-[current=page]:bg-wash aria-[current=page]:text-primary"
+              className="flex items-center gap-3 rounded-2xl px-3.5 py-2.5 text-[0.95rem] font-medium text-white/65 transition-colors hover:bg-white/10 hover:text-white aria-[current=page]:bg-white aria-[current=page]:text-[#1f5f8b] aria-[current=page]:shadow-lg"
             >
               {item.icon}
               {item.label}
             </Link>
           ))}
         </nav>
-        <div className="border-t border-border px-2 pt-4">
-          <p className="truncate text-sm font-semibold">
-            {user ? `${user.firstName ?? ""} ${user.lastName ?? ""}`.trim() || user.email : ""}
-          </p>
-          <p className="truncate text-xs text-muted">{user?.email}</p>
-          <button type="button" onClick={() => void signOut()} className="mt-3 text-sm font-medium text-danger hover:underline">
-            Sign out
-          </button>
+        <div className="relative flex items-center gap-3 rounded-2xl bg-white/10 p-3 backdrop-blur">
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#7cb8e0] to-[#1f5f8b] font-display text-sm font-bold text-white">
+            {initials(user?.firstName, user?.lastName, user?.email)}
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-semibold">{name}</p>
+            <button type="button" onClick={() => void signOut()} className="text-xs font-medium text-white/70 hover:text-white">
+              Sign out
+            </button>
+          </div>
         </div>
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-background/90 px-4 py-3 backdrop-blur lg:hidden">
+        <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border/60 bg-background/80 px-4 py-3 backdrop-blur-lg lg:hidden">
           <Logo href="/app" />
-          <button type="button" onClick={() => void signOut()} className="text-sm font-medium text-muted">
-            Sign out
-          </button>
+          <Link
+            href="/app/settings"
+            aria-label="Settings and account"
+            className="flex size-9 items-center justify-center rounded-full bg-gradient-to-br from-primary-bright to-primary font-display text-xs font-bold text-white"
+          >
+            {initials(user?.firstName, user?.lastName, user?.email)}
+          </Link>
         </header>
         {stale && (
           <div className="bg-warning/15 px-4 py-2 text-center text-sm text-warning" role="status">
             You’re offline. Showing your last known details.
           </div>
         )}
-        <main className="mx-auto w-full max-w-5xl flex-1 px-4 pt-6 pb-28 sm:px-6 lg:px-10 lg:pt-10 lg:pb-12">{children}</main>
+        <main className="mx-auto w-full max-w-5xl flex-1 px-4 pt-6 pb-28 sm:px-6 lg:px-10 lg:pt-12 lg:pb-12">{children}</main>
       </div>
 
       <nav
         aria-label="Main"
-        className="fixed inset-x-0 bottom-0 z-30 flex border-t border-border bg-surface pb-[env(safe-area-inset-bottom)] lg:hidden"
+        className="fixed inset-x-3 bottom-3 z-30 flex rounded-3xl border border-border/70 bg-surface/90 p-1.5 shadow-card backdrop-blur-lg pb-[max(0.375rem,env(safe-area-inset-bottom))] lg:hidden"
       >
         {NAV.filter((n) => n.mobile).map((item) => (
           <Link
             key={item.href}
             href={item.href}
             aria-current={isActive(pathname, item.href) ? "page" : undefined}
-            className="flex flex-1 flex-col items-center gap-0.5 py-2 text-[0.7rem] font-medium text-muted aria-[current=page]:text-primary"
+            className="flex flex-1 flex-col items-center gap-0.5 rounded-2xl py-1.5 text-[0.68rem] font-semibold text-muted transition-colors aria-[current=page]:bg-wash aria-[current=page]:text-primary"
           >
             {item.icon}
             {item.label}

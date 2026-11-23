@@ -25,6 +25,8 @@ function LoginForm() {
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // "Enter the code" is an instruction, not a failure: shown in blue, not red.
+  const [prompt, setPrompt] = useState<string | null>(null);
   const next = safeNext(params.get("next"));
 
   useEffect(() => {
@@ -34,6 +36,7 @@ function LoginForm() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setPrompt(null);
     setLoading(true);
     const sentCode = needs2fa ? code.trim() : "";
     try {
@@ -44,7 +47,8 @@ function LoginForm() {
         // A code works once, so a refused one is cleared, not resubmitted.
         setNeeds2fa(true);
         setCode("");
-        setError(sentCode ? twoFactorMessage(true) : "Enter the 6-digit code from your authenticator app.");
+        if (sentCode) setError(twoFactorMessage(true, err));
+        else setPrompt(twoFactorMessage(false, err));
       } else {
         setError(friendlyErrorMessage(err, "Sign-in failed. Check your network and try again."));
       }
@@ -57,7 +61,8 @@ function LoginForm() {
     <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
       <Input label="Email" type="email" autoComplete="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
       <PasswordInput label="Password" autoComplete="current-password" placeholder="Your password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-      {needs2fa && <CodeInput label="Authenticator code" value={code} onChange={(e) => setCode(e.target.value)} autoFocus />}
+      {needs2fa && <CodeInput label="Security code" value={code} onChange={(e) => setCode(e.target.value)} autoFocus />}
+      <Alert tone="info">{prompt}</Alert>
       <Alert>{error}</Alert>
       <Button type="submit" loading={loading} block>
         Sign in

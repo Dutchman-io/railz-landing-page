@@ -3,7 +3,7 @@
 :root{padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px)}
 body{line-height:1.6;
   background:
-    radial-gradient(70% 48% at 78% -6%,#dfe9fe 0%,transparent 62%),
+    radial-gradient(70% 48% at 78% -6%,#dbf0fd 0%,transparent 62%),
     linear-gradient(180deg,var(--ground) 0%,var(--ground-2) 46%,var(--ground-2) 100%);
   background-attachment:fixed;
 }
@@ -12,10 +12,10 @@ a{color:inherit}
 
 /* ── masthead ─────────────────────────────────── */
 .tile{position:relative; overflow:hidden; border-radius:9px; background:#fff; flex:none;
-  box-shadow:0 0 0 1px var(--line),0 8px 20px -10px rgba(1,69,206,.45)}
+  box-shadow:0 0 0 1px var(--line),0 8px 20px -10px rgba(2,132,199,.45)}
 .tile-sm{width:40px; height:40px; padding:2px}
 .tile::after{content:""; position:absolute; inset:0;
-  background:linear-gradient(0deg,rgba(26,99,240,.4) 0%,rgba(26,99,240,0) 44%);
+  background:linear-gradient(0deg,rgba(14,165,233,.4) 0%,rgba(14,165,233,0) 44%);
   transform:translateY(100%); animation:travel 3.8s cubic-bezier(.4,0,.5,1) infinite}
 @keyframes travel{0%{transform:translateY(100%)}62%,100%{transform:translateY(-100%)}}
 .by{font-family:var(--mono); font-size:11.5px; letter-spacing:.04em; color:var(--muted)}
@@ -31,7 +31,7 @@ a{color:inherit}
   letter-spacing:.12em; text-transform:uppercase; color:var(--blue)}
 .kicker::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--blue-bright);
   animation:beat 2.4s ease-in-out infinite}
-@keyframes beat{0%,100%{box-shadow:0 0 0 0 rgba(26,99,240,.45)}70%{box-shadow:0 0 0 7px rgba(26,99,240,0)}}
+@keyframes beat{0%,100%{box-shadow:0 0 0 0 rgba(14,165,233,.45)}70%{box-shadow:0 0 0 7px rgba(14,165,233,0)}}
 
 h1{font-family:var(--display); font-weight:800; margin:0;
   font-size:clamp(2.7rem,7vw,4.7rem); line-height:.98; letter-spacing:-.042em;
@@ -56,8 +56,8 @@ h1 i{font-style:normal; color:var(--blue)}
 .btn:hover::before{animation:shine .8s ease}
 @keyframes shine{to{left:125%}}
 .btn-fill{background:linear-gradient(168deg,var(--blue-bright),var(--blue)); color:#fff;
-  box-shadow:0 14px 30px -14px rgba(1,69,206,.75)}
-.btn-fill:hover{box-shadow:0 20px 38px -16px rgba(1,69,206,.85)}
+  box-shadow:0 14px 30px -14px rgba(2,132,199,.75)}
+.btn-fill:hover{box-shadow:0 20px 38px -16px rgba(2,132,199,.85)}
 .btn-line{border-color:var(--line); background:var(--card); color:var(--ink); box-shadow:var(--shadow)}
 .btn-line:hover{border-color:var(--blue-edge)}
 .btn-soon{cursor:default; opacity:.6}
@@ -73,11 +73,11 @@ h1 i{font-style:normal; color:var(--blue)}
 /* ── phone with real screens ──────────────────── */
 .stage{position:relative; display:grid; place-items:center; animation:fade 1s .2s both}
 .stage::before{content:""; position:absolute; width:80%; aspect-ratio:1; border-radius:50%;
-  background:radial-gradient(circle,rgba(26,99,240,.22),transparent 64%); filter:blur(26px)}
+  background:radial-gradient(circle,rgba(14,165,233,.22),transparent 64%); filter:blur(26px)}
 .phone{position:relative; animation:float 7s ease-in-out infinite; width:min(300px,82vw); border-radius:40px; padding:10px;
   background:linear-gradient(165deg,#f2f5fd,#cdd8ee);
   box-shadow:0 0 0 1px rgba(11,20,36,.09),0 60px 90px -44px rgba(11,20,36,.5),
-             0 0 70px -26px rgba(1,69,206,.35)}
+             0 0 70px -26px rgba(2,132,199,.35)}
 .screen{position:relative; overflow:hidden; border-radius:31px; background:#10182d;
   aspect-ratio:1284/2778; box-shadow:inset 0 0 0 1px rgba(11,20,36,.07)}
 .screen img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
@@ -158,7 +158,7 @@ footer .mono{font-family:var(--mono); font-size:12px}
   .globe::before{inset:14% 12% 14% 16%}
 }
 .globe::before{content:""; position:absolute; inset:14%; border-radius:50%;
-  background:radial-gradient(circle,rgba(26,99,240,.28),transparent 66%); filter:blur(30px)}
+  background:radial-gradient(circle,rgba(14,165,233,.28),transparent 66%); filter:blur(30px)}
 .globe canvas{position:relative; display:block; width:100%; aspect-ratio:1; cursor:grab; touch-action:pan-y}
 .globe canvas:active{cursor:grabbing}
 .reach-copy h2{max-width:16ch}

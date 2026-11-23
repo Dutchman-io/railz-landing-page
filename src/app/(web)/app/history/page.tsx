@@ -24,12 +24,23 @@ function Row({ tx }: { tx: LedgerActivity }) {
       onClick={() => stashTransaction(tx)}
       className="flex items-center gap-4 px-4 py-3.5 transition-colors hover:bg-wash sm:px-5"
     >
+      {/* Money in green and pointing down into the wallet; money out in brand blue. */}
+      <span
+        aria-hidden="true"
+        className={`flex size-11 shrink-0 items-center justify-center rounded-2xl ${
+          isCredit(tx) ? "bg-success/12 text-success" : "bg-wash text-primary"
+        }`}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d={isCredit(tx) ? "M17 7 7 17M7 9v8h8" : "M7 17 17 7M9 7h8v8"} />
+        </svg>
+      </span>
       <div className="min-w-0 flex-1">
         <p className="truncate font-semibold">{activityLabel(tx)}</p>
         <p className="text-sm text-muted">{formatWhen(tx.createdAt)}</p>
       </div>
       <div className="shrink-0 text-right">
-        <p className={`font-semibold tabular ${isCredit(tx) ? "text-primary" : ""}`}>{formatAmount(tx)}</p>
+        <p className={`font-semibold tabular ${isCredit(tx) ? "text-success" : ""}`}>{formatAmount(tx)}</p>
         {counter && <p className="font-semibold tabular text-primary">{counter}</p>}
         <p className={`text-[0.65rem] font-bold uppercase tracking-wider ${statusClass(tx.status)}`}>{statusLabel(tx.status)}</p>
       </div>
@@ -64,7 +75,7 @@ export default function HistoryPage() {
 
   return (
     <div>
-      <p className="text-xs font-semibold tracking-widest text-primary">ACTIVITY</p>
+      <p className="font-mono text-xs font-semibold tracking-[0.16em] text-primary">ACTIVITY</p>
       <PageHeader title="Transaction history" />
 
       {isLoading ? (
@@ -86,7 +97,7 @@ export default function HistoryPage() {
         </Card>
       ) : (
         <>
-          <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface">
+          <div className="divide-y divide-border/70 overflow-hidden rounded-3xl border border-border/70 bg-surface shadow-card">
             {items.map((tx) => (
               <Row key={tx.id} tx={tx} />
             ))}
