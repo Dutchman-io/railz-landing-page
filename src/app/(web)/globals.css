@@ -2,41 +2,47 @@
 
 /*
  * The signed-in app's palette, taken from zemfi-mobile's theme/colors.ts so
- * the web and the phone look like one product: sky-blue accent, calm
- * surfaces, hairline borders. Follows the OS colour scheme.
+ * the web and the phone look like one product: warm ivory and espresso
+ * grounds, warm-stone neutrals, the brand blue as the one accent. Follows the
+ * OS colour scheme.
  */
 :root {
-  --background: #f4f6fa;
-  --foreground: #0b1324;
-  --primary: #0284c7;
-  --primary-hover: #0369a1;
-  --on-primary: #ffffff;
-  --surface: #ffffff;
-  --surface-border: #e4e9f2;
-  --success: #16a34a;
-  --danger: #dc2626;
-  --warning: #c2710c;
-  --muted: #5a6478;
-  --subtle: #98a2b3;
-  --wash: #e0f2fe;
+  --background: #f7f3ec;
+  --foreground: #1e1a16;
+  --primary: #1f5f8b;
+  --primary-hover: #174a6d;
+  --on-primary: #fffdf9;
+  --surface: #fffdf9;
+  --surface-muted: #f2ece2;
+  --surface-border: #e9e1d4;
+  --success: #2e7d5b;
+  --danger: #b42318;
+  --warning: #b26a00;
+  --muted: #74695c;
+  --subtle: #a89c8d;
+  --wash: #f0e7da;
+  /* Wide and faint, warm-toned: a card lifted off the ivory like paper. */
+  --card-shadow: 0 12px 32px -16px rgb(74 53 32 / 0.18), 0 1px 2px rgb(74 53 32 / 0.04);
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a101c;
-    --foreground: #f5f7fa;
-    --primary: #38bdf8;
-    --primary-hover: #0ea5e9;
-    --on-primary: #0a101c;
-    --surface: #121a2a;
-    --surface-border: #1e2940;
-    --success: #22c55e;
-    --danger: #f05252;
-    --warning: #f5a524;
-    --muted: #8b97ad;
-    --subtle: #5b6882;
-    --wash: #0b1b2e;
+    --background: #14110f;
+    --foreground: #f4eee6;
+    --primary: #7cb8e0;
+    --primary-hover: #9ccbea;
+    --on-primary: #14110f;
+    --surface: #1d1916;
+    --surface-muted: #241f1b;
+    --surface-border: #2c2621;
+    --success: #5dbb8a;
+    --danger: #f07a6a;
+    --warning: #e3a44a;
+    --muted: #a3978a;
+    --subtle: #6f6559;
+    --wash: #221b16;
+    --card-shadow: none;
     color-scheme: dark;
   }
 }
@@ -48,6 +54,7 @@
   --color-primary-hover: var(--primary-hover);
   --color-on-primary: var(--on-primary);
   --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
   --color-border: var(--surface-border);
   --color-success: var(--success);
   --color-danger: var(--danger);
@@ -55,8 +62,9 @@
   --color-muted: var(--muted);
   --color-subtle: var(--subtle);
   --color-wash: var(--wash);
-  --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-bricolage), var(--font-public-sans), sans-serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --shadow-card: var(--card-shadow);
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 }
 
@@ -98,7 +106,7 @@ body {
 
 select.input {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b97ad' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a3978a' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.85rem center;
   padding-right: 2.25rem;
