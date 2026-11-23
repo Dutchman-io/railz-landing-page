@@ -6,7 +6,7 @@ export function Logo({ href = "/", onDark = false }: { href?: string; onDark?: b
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/logo.png" alt="" width={36} height={36} className="size-9 rounded-xl shadow-md ring-1 ring-black/5" />
       <span className={`font-display text-[1.35rem] font-bold tracking-tight ${onDark ? "text-white" : ""}`}>
-        Zem<span className={onDark ? "text-sky-300" : "text-primary"}>Fi</span>
+        Zem<span className={onDark ? "text-[#a9d2ee]" : "text-primary"}>Fi</span>
       </span>
     </Link>
   );

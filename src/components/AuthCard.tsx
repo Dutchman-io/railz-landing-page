@@ -14,16 +14,16 @@ export function AuthCard({ title, subtitle, children, wide = false }: { title: s
           aria-hidden="true"
           className="pointer-events-none absolute -right-40 top-1/4 size-[34rem] rounded-full opacity-50 [background-image:radial-gradient(rgba(255,255,255,0.6)_1.3px,transparent_1.4px)] [background-size:14px_14px] [mask-image:radial-gradient(circle,black_40%,transparent_70%)]"
         />
-        <div aria-hidden="true" className="pointer-events-none absolute -bottom-32 -left-24 size-96 rounded-full bg-sky-400/30 blur-3xl" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-32 -left-24 size-96 rounded-full bg-[#7cb8e0]/25 blur-3xl" />
         <div className="relative">
           <Logo onDark />
         </div>
         <div className="relative">
-          <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-sky-200">Stablecoin-backed payments</p>
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-white/70">Stablecoin-backed payments</p>
           <p className="mt-4 font-display text-5xl leading-[1.02] font-bold tracking-tight">
             Pay across borders.
             <br />
-            <span className="text-sky-300">Settled in stablecoins.</span>
+            <span className="text-[#a9d2ee]">Settled in stablecoins.</span>
           </p>
           <p className="mt-6 max-w-md text-lg text-white/75">
             Pay bank accounts in other countries, get paid by clients abroad, and hold a dollar-pegged balance in between.

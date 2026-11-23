@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, IBM_Plex_Mono, Public_Sans } from "next/font/google";
+import { Fraunces, IBM_Plex_Mono, Manrope } from "next/font/google";
 import { Providers } from "@/components/Providers";
 import "./globals.css";
 
@@ -9,12 +9,10 @@ import "./globals.css";
  * other; moving between the two is a full page load.
  */
 
-const publicSans = Public_Sans({ variable: "--font-public-sans", subsets: ["latin"] });
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
-  subsets: ["latin"],
-  weight: ["600", "700", "800"],
-});
+// The same faces as zemfi-mobile (theme/typography): Manrope for text, the
+// Fraunces serif for titles and amounts.
+const manrope = Manrope({ variable: "--font-manrope", subsets: ["latin"] });
+const fraunces = Fraunces({ variable: "--font-fraunces", subsets: ["latin"], axes: ["opsz"] });
 const plexMono = IBM_Plex_Mono({
   variable: "--font-plex-mono",
   subsets: ["latin"],
@@ -30,8 +28,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f6fa" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a101c" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f3ec" },
+    { media: "(prefers-color-scheme: dark)", color: "#14110f" },
   ],
 };
 
@@ -39,7 +37,7 @@ export default function WebRootLayout({ children }: { children: React.ReactNode 
   return (
     <html
       lang="en"
-      className={`${publicSans.variable} ${bricolage.variable} ${plexMono.variable} h-full antialiased`}
+      className={`${manrope.variable} ${fraunces.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="min-h-full">
         <Providers>{children}</Providers>

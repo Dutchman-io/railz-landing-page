@@ -77,13 +77,13 @@ export default function DashboardPage() {
   return (
     <div>
       {/* The balance leads, on the brand gradient: the one number the app exists to show. */}
-      <section className="relative overflow-hidden rounded-[2rem] bg-hero p-6 text-white shadow-[0_30px_60px_-30px_rgba(2,132,199,0.7)] sm:p-9">
+      <section className="relative overflow-hidden rounded-[2rem] bg-hero p-6 text-white shadow-[0_30px_60px_-30px_rgba(18,59,87,0.6)] sm:p-9">
         {/* A dotted globe edge and a glow, after the landing page's hero. */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -top-24 -right-20 size-80 rounded-full opacity-40 [background-image:radial-gradient(rgba(255,255,255,0.55)_1.2px,transparent_1.3px)] [background-size:12px_12px] [mask-image:radial-gradient(circle,black_45%,transparent_70%)]"
         />
-        <div aria-hidden="true" className="pointer-events-none absolute -bottom-28 -left-16 size-72 rounded-full bg-sky-400/30 blur-3xl" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-28 -left-16 size-72 rounded-full bg-[#7cb8e0]/25 blur-3xl" />
 
         <div className="relative flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0">
@@ -173,7 +173,7 @@ export default function DashboardPage() {
           <ListGroup>
             <ListRow
               left={
-                <span className="flex size-10 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-primary text-white">{ICONS.bank}</span>
+                <span className="flex size-10 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-bright to-primary text-white">{ICONS.bank}</span>
               }
               title="Bank accounts"
               subtitle="Where your withdrawals go"

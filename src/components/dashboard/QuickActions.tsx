@@ -25,13 +25,16 @@ export const ICONS = {
 const tile =
   "group flex flex-col items-center gap-2.5 rounded-3xl border border-border/70 bg-surface px-2 py-5 text-sm font-semibold shadow-card transition-all hover:-translate-y-0.5 hover:border-primary/40";
 
-/** Each action in its own colour, so the row reads at a glance. */
+/**
+ * Each action in its own colour, so the row reads at a glance: earthy tones
+ * that sit with the warm palette, the brand ink blue for Send.
+ */
 const HUES: Record<string, string> = {
-  Send: "from-[#0ea5e9] to-[#0284c7] shadow-[#0284c7]/40",
-  Receive: "from-emerald-400 to-emerald-600 shadow-emerald-600/40",
-  Convert: "from-violet-400 to-violet-600 shadow-violet-600/40",
-  Tokens: "from-amber-400 to-orange-500 shadow-orange-500/40",
-  Bills: "from-pink-400 to-rose-600 shadow-rose-600/40",
+  Send: "from-[#2b78ad] to-[#1f5f8b] shadow-[#1f5f8b]/30",
+  Receive: "from-[#4a9a76] to-[#2e7d5b] shadow-[#2e7d5b]/30",
+  Convert: "from-[#8a6aa3] to-[#6b4f85] shadow-[#6b4f85]/30",
+  Tokens: "from-[#d39a4a] to-[#b26a00] shadow-[#b26a00]/30",
+  Bills: "from-[#c8714f] to-[#a4502f] shadow-[#a4502f]/30",
 };
 
 /** One action tile: a link, or a button when the capability is coming soon. */

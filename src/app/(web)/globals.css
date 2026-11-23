@@ -2,54 +2,57 @@
 
 /*
  * The signed-in app's palette, matching the mobile app (zemfi-mobile
- * src/theme/colors.ts): sky blue as the one accent (2026-11-05), with the
- * logo/globe re-tinted to the same sky blue (2026-11-15). Light mode uses
- * #0284C7, the brightest sky shade white text stays readable on; dark mode
- * uses the brighter #38BDF8 with dark-ground text on it. Follows the OS
- * colour scheme.
+ * src/theme/colors.ts): warm ivory and espresso grounds, warm-stone neutrals,
+ * and the brand blue (the logo and globe are tinted to it) as the one accent,
+ * deep ink in light and soft in dark (2026-11-23). Follows the OS colour
+ * scheme.
  */
 :root {
-  --background: #f4f6fa;
-  --foreground: #0b1324;
-  --primary: #0284c7;
-  --primary-hover: #0369a1;
-  --primary-bright: #0ea5e9;
-  --on-primary: #ffffff;
-  --surface: #ffffff;
-  --surface-border: #e4e9f2;
-  --success: #16a34a;
-  --danger: #dc2626;
-  --warning: #c2710c;
-  --muted: #5a6478;
-  --subtle: #98a2b3;
-  --wash: #e0f2fe;
-  --glow: rgba(14, 165, 233, 0.14);
-  --shadow: 0 1px 2px rgba(11, 19, 36, 0.04), 0 18px 40px -24px rgba(11, 19, 36, 0.28);
-  /* The hero: deep sky into the accent; white text stays readable across it. */
-  --hero: linear-gradient(135deg, #0c4a6e 0%, #0369a1 50%, #0284c7 100%);
+  --background: #f7f3ec;
+  --foreground: #1e1a16;
+  --primary: #1f5f8b;
+  --primary-hover: #174a6d;
+  --primary-bright: #2b78ad;
+  --on-primary: #fffdf9;
+  --surface: #fffdf9;
+  --surface-muted: #f2ece2;
+  --surface-border: #e9e1d4;
+  --success: #2e7d5b;
+  --danger: #b42318;
+  --warning: #b26a00;
+  --muted: #74695c;
+  --subtle: #a89c8d;
+  --wash: #f0e7da;
+  /* A warm glow on the ground, not a blue one. */
+  --glow: rgba(196, 150, 100, 0.14);
+  /* Wide and faint, warm-toned: a card lifted off the ivory like paper. */
+  --shadow: 0 1px 2px rgba(74, 53, 32, 0.04), 0 18px 40px -24px rgba(74, 53, 32, 0.24);
+  /* The hero: deep ink into the accent; ivory text stays readable across it. */
+  --hero: linear-gradient(135deg, #123b57 0%, #1a5378 50%, #1f5f8b 100%);
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a101c;
-    --foreground: #f5f7fa;
-    --primary: #38bdf8;
-    --primary-hover: #0ea5e9;
-    --primary-bright: #7dd3fc;
-    /* Text on the bright sky accent is the dark ground colour, as on mobile. */
-    --on-primary: #0a101c;
-    --surface: #121a2a;
-    --surface-border: #1e2940;
-    --success: #22c55e;
-    --danger: #f05252;
-    --warning: #f5a524;
-    --muted: #8b97ad;
-    --subtle: #5b6882;
-    --wash: #0b1b2e;
-    --glow: rgba(56, 189, 248, 0.14);
+    --background: #14110f;
+    --foreground: #f4eee6;
+    --primary: #7cb8e0;
+    --primary-hover: #9ccbea;
+    --primary-bright: #a9d2ee;
+    /* Text on the soft blue accent is the espresso ground, as on mobile. */
+    --on-primary: #14110f;
+    --surface: #1d1916;
+    --surface-muted: #241f1b;
+    --surface-border: #2c2621;
+    --success: #5dbb8a;
+    --danger: #f07a6a;
+    --warning: #e3a44a;
+    --muted: #a3978a;
+    --subtle: #6f6559;
+    --wash: #221b16;
+    --glow: rgba(214, 160, 110, 0.08);
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 18px 40px -24px rgba(0, 0, 0, 0.7);
-    --hero: linear-gradient(135deg, #082f49 0%, #075985 55%, #0369a1 100%);
+    --hero: linear-gradient(135deg, #0f2a3d 0%, #16405e 55%, #1f5f8b 100%);
     color-scheme: dark;
   }
 }
@@ -62,6 +65,7 @@
   --color-primary-bright: var(--primary-bright);
   --color-on-primary: var(--on-primary);
   --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
   --color-border: var(--surface-border);
   --color-success: var(--success);
   --color-danger: var(--danger);
@@ -70,8 +74,8 @@
   --color-subtle: var(--subtle);
   --color-wash: var(--wash);
   --shadow-card: var(--shadow);
-  --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-bricolage), var(--font-public-sans), sans-serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 }
 
@@ -118,7 +122,7 @@ body {
 
 select.input {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b97ad' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a3978a' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.85rem center;
   padding-right: 2.25rem;
