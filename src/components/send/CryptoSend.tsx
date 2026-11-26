@@ -9,7 +9,7 @@ import { CodeInput, Input } from "@/components/ui/Field";
 import { CurrencyPicker } from "@/components/common/CurrencyPicker";
 import { ReviewSheet, type ReviewRow } from "@/components/common/ReviewSheet";
 import { friendlyErrorMessage } from "@/lib/api";
-import { metaOrCode } from "@/lib/currency";
+import { metaOrCode, parseAmountInput } from "@/lib/currency";
 import { featureState, useFeatures } from "@/lib/features";
 import { isChargedFee } from "@/lib/fees";
 import { useActionReference } from "@/lib/idempotency";
@@ -77,7 +77,7 @@ export function CryptoSend({
   const fee = selected?.flatFeeUsdt ?? 0;
   const min = selected?.minSendUsdt ?? 0;
 
-  const numeric = Number(amount.replace(/[^0-9.]/g, ""));
+  const numeric = parseAmountInput(amount);
   const net = numeric > 0 ? Math.max(Number((numeric - fee).toFixed(6)), 0) : 0;
   const overBalance = numeric > balance;
   const underMin = numeric > 0 && numeric < min;

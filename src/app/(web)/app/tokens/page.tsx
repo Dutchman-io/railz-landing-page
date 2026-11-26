@@ -17,7 +17,7 @@ import { assetName, networkName } from "@/lib/assetMeta";
 import { apiErrorCode, friendlyErrorMessage } from "@/lib/api";
 import { featureState, useFeatures } from "@/lib/features";
 import { BALANCES_KEY, useBalances } from "@/lib/wallet";
-import { formatMoney, isStablecoin } from "@/lib/currency";
+import { formatMoney, isStablecoin, parseAmountInput } from "@/lib/currency";
 import { useActionReference } from "@/lib/idempotency";
 import { isTwoFactorRequired, twoFactorMessage, useTwoFactorStatus } from "@/lib/twoFactor";
 import {
@@ -52,7 +52,7 @@ const fmtMoneyIn = (n: number, currency: string): string =>
 
 /** A positive number the user typed, or null. */
 const parseAmount = (raw: string): number | null => {
-  const n = Number(raw.replace(/,/g, "").trim());
+  const n = parseAmountInput(raw);
   return Number.isFinite(n) && n > 0 ? n : null;
 };
 
