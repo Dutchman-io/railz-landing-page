@@ -1,7 +1,7 @@
 // Two-factor (TOTP) auth. Setup returns an otpauth:// URL (rendered as a QR) and
 // the raw secret for manual entry; enable/disable confirm with a 6-digit code.
 import { useQuery } from '@tanstack/react-query';
-import { api } from './api';
+import { api, friendlyErrorMessage } from './api';
 import type { ApiError } from './api';
 
 export const TWO_FACTOR_KEY = ['two-factor-status'] as const;
@@ -55,10 +55,18 @@ export function isTwoFactorRequired(err: unknown): boolean {
   );
 }
 
-/** The code was emailed (web, no authenticator app), not from an app. */
+/** The code comes from email (no authenticator app), not from an app:
+ * EMAIL_OTP_REQUIRED, or TWO_FACTOR_REQUIRED with details.method 'email'. */
 export function isEmailCode(err: unknown): boolean {
-  const e = err as ApiError;
-  return (e?.data as { code?: string } | undefined)?.code === 'EMAIL_OTP_REQUIRED';
+  const data = (err as ApiError)?.data as
+    | { code?: string; details?: { method?: unknown } }
+    | undefined;
+  return data?.code === 'EMAIL_OTP_REQUIRED' || data?.details?.method === 'email';
+}
+
+/** Email a one-time code to a user without 2FA. */
+export async function requestEmailCode(): Promise<void> {
+  await api.post('/authentication/2fa/email-code', {}, { retry: false });
 }
 
 /** First ask: no code has been sent for this action yet. */
@@ -83,3 +91,38 @@ export const twoFactorMessage = (codeWasSent: boolean, err?: unknown): string =>
     : codeWasSent
       ? TWO_FACTOR_RETRY_MESSAGE
       : TWO_FACTOR_PROMPT;
+
+/**
+ * What to show after a TWO_FACTOR_REQUIRED refusal. When it asks for an
+ * emailed code (details.method 'email') the code is requested here first --
+ * a fresh one after a refused code too, since the old one may be spent --
+ * and the same code field takes it. Never throws: a failed send is a
+ * message too.
+ */
+export async function stepUpPrompt(
+  err: unknown,
+  codeWasSent: boolean,
+): Promise<{ title: string; message: string }> {
+  const method = ((err as ApiError)?.data as { details?: { method?: unknown } } | undefined)
+    ?.details?.method;
+  if (method !== 'email') {
+    return {
+      title: codeWasSent ? 'Code not accepted' : isEmailCode(err) ? 'Check your email' : 'Two-factor required',
+      message: twoFactorMessage(codeWasSent, err),
+    };
+  }
+  try {
+    await requestEmailCode();
+  } catch (sendErr) {
+    return {
+      title: 'Could not send a code',
+      message: friendlyErrorMessage(sendErr, 'Please try again shortly.'),
+    };
+  }
+  return {
+    title: codeWasSent ? 'Code not accepted' : 'Check your email',
+    message: codeWasSent
+      ? "That code didn't work, so we emailed you a new one. Enter it to confirm."
+      : 'We emailed you a code. Enter it to confirm.',
+  };
+}

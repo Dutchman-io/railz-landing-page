@@ -24,7 +24,7 @@ import {
   type SendNetworksResponse,
   type SendQuote,
 } from "@/lib/send";
-import { isTwoFactorRequired, twoFactorMessage } from "@/lib/twoFactor";
+import { isTwoFactorRequired, stepUpPrompt } from "@/lib/twoFactor";
 import { BALANCES_KEY } from "@/lib/wallet";
 import { PromptModal, type PromptSpec } from "./PromptModal";
 import { RecipientChips } from "./RecipientChips";
@@ -154,10 +154,7 @@ export function CryptoSend({
         // Codes are single-use: a refused one is cleared, not resubmitted.
         setNeeds2fa(true);
         setTwoFactorCode("");
-        setPrompt({
-          title: sentCode ? "Code not accepted" : "Two-factor required",
-          message: twoFactorMessage(!!sentCode, err),
-        });
+        setPrompt(await stepUpPrompt(err, !!sentCode));
       } else {
         setPrompt({
           title: "Send failed",

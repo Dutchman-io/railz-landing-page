@@ -14,7 +14,7 @@ import { Pill } from "@/components/convert/Chips";
 import { friendlyErrorMessage } from "@/lib/api";
 import { featureState, useFeatures } from "@/lib/features";
 import { useActionReference } from "@/lib/idempotency";
-import { isEmailCode, isTwoFactorRequired, twoFactorMessage } from "@/lib/twoFactor";
+import { isTwoFactorRequired, stepUpPrompt } from "@/lib/twoFactor";
 import { BALANCES_KEY, balanceOf, useBalances } from "@/lib/wallet";
 import { formatMoney } from "@/lib/currency";
 import { useAuth } from "@/state/auth";
@@ -276,10 +276,8 @@ function BillsForm() {
         // Codes are single-use: a refused one is cleared, not resubmitted.
         setNeeds2fa(true);
         setTwoFactorCode("");
-        setPayNotice({
-          title: sentCode ? "Code not accepted" : isEmailCode(err) ? "Check your email" : "Two-factor required",
-          body: twoFactorMessage(!!sentCode, err),
-        });
+        const prompt = await stepUpPrompt(err, !!sentCode);
+        setPayNotice({ title: prompt.title, body: prompt.message });
       } else {
         setPayNotice({
           title: "Payment failed",

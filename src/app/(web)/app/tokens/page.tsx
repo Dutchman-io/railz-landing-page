@@ -19,7 +19,7 @@ import { featureState, useFeatures } from "@/lib/features";
 import { BALANCES_KEY, useBalances } from "@/lib/wallet";
 import { formatMoney, isStablecoin, parseAmountInput } from "@/lib/currency";
 import { useActionReference } from "@/lib/idempotency";
-import { isTwoFactorRequired, twoFactorMessage, useTwoFactorStatus } from "@/lib/twoFactor";
+import { isTwoFactorRequired, stepUpPrompt, useTwoFactorStatus } from "@/lib/twoFactor";
 import {
   CONVERSION_TOLERANCE,
   TOKENS_KEY,
@@ -464,7 +464,7 @@ function SendForm({ holding }: { holding: TokenHolding }) {
       if (isTwoFactorRequired(err)) {
         setCodeAsked(true);
         setCode("");
-        setMessage(twoFactorMessage(!!sentCode, err));
+        setMessage((await stepUpPrompt(err, !!sentCode)).message);
       } else {
         setMessage(friendlyErrorMessage(err, "The send did not go through."));
       }

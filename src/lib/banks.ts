@@ -75,6 +75,9 @@ export interface AddBankAccountInput {
   accountNumber: string;
   bankCode: string;
   currency: string;
+  /** Authenticator code with 2FA on, otherwise the emailed code: payout
+   * accounts are where withdrawals land, so changing them is stepped up. */
+  twoFactorCode?: string;
 }
 
 // Persist a verified payout account (SCR-004 save step). The backend re-resolves
@@ -114,7 +117,15 @@ export async function deleteBankAccount(id: string): Promise<void> {
   await api.delete(`/user/accounts/${id}`, { retry: false });
 }
 
-// Make a linked account the default payout destination.
-export async function setDefaultBankAccount(id: string): Promise<void> {
-  await api.patch(`/user/accounts/${id}/default`, undefined, { retry: false });
+// Make a linked account the default payout destination. Stepped up like
+// adding one (403 TWO_FACTOR_REQUIRED until a code is given).
+export async function setDefaultBankAccount(
+  id: string,
+  twoFactorCode?: string,
+): Promise<void> {
+  await api.patch(
+    `/user/accounts/${id}/default`,
+    twoFactorCode ? { twoFactorCode } : {},
+    { retry: false },
+  );
 }
