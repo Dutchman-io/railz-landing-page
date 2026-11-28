@@ -9,7 +9,7 @@ import { CodeInput, Input } from "@/components/ui/Field";
 import { CurrencyPicker } from "@/components/common/CurrencyPicker";
 import { ReviewSheet, type ReviewRow } from "@/components/common/ReviewSheet";
 import { friendlyErrorMessage } from "@/lib/api";
-import { metaOrCode } from "@/lib/currency";
+import { metaOrCode, parseAmountInput } from "@/lib/currency";
 import { featureState, useFeatures } from "@/lib/features";
 import { isChargedFee } from "@/lib/fees";
 import { useActionReference } from "@/lib/idempotency";
@@ -24,7 +24,7 @@ import {
   type SendNetworksResponse,
   type SendQuote,
 } from "@/lib/send";
-import { isTwoFactorRequired, twoFactorMessage } from "@/lib/twoFactor";
+import { isTwoFactorRequired, stepUpPrompt } from "@/lib/twoFactor";
 import { BALANCES_KEY } from "@/lib/wallet";
 import { PromptModal, type PromptSpec } from "./PromptModal";
 import { RecipientChips } from "./RecipientChips";
@@ -77,7 +77,7 @@ export function CryptoSend({
   const fee = selected?.flatFeeUsdt ?? 0;
   const min = selected?.minSendUsdt ?? 0;
 
-  const numeric = Number(amount.replace(/[^0-9.]/g, ""));
+  const numeric = parseAmountInput(amount);
   const net = numeric > 0 ? Math.max(Number((numeric - fee).toFixed(6)), 0) : 0;
   const overBalance = numeric > balance;
   const underMin = numeric > 0 && numeric < min;
@@ -154,10 +154,7 @@ export function CryptoSend({
         // Codes are single-use: a refused one is cleared, not resubmitted.
         setNeeds2fa(true);
         setTwoFactorCode("");
-        setPrompt({
-          title: sentCode ? "Code not accepted" : "Two-factor required",
-          message: twoFactorMessage(!!sentCode, err),
-        });
+        setPrompt(await stepUpPrompt(err, !!sentCode));
       } else {
         setPrompt({
           title: "Send failed",

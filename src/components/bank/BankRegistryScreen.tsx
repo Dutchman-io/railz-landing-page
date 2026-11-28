@@ -9,6 +9,8 @@ import { Alert } from "@/components/ui/Alert";
 import { Loading } from "@/components/ui/Spinner";
 import { PromptModal, type PromptSpec } from "@/components/send/PromptModal";
 import { friendlyErrorMessage } from "@/lib/api";
+import { CodeInput } from "@/components/ui/Field";
+import { isTwoFactorRequired, stepUpPrompt } from "@/lib/twoFactor";
 import {
   ACCOUNTS_KEY,
   deleteBankAccount,
@@ -51,6 +53,10 @@ export function BankRegistryScreen() {
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [prompt, setPrompt] = useState<PromptSpec | null>(null);
   const [actionError, setActionError] = useState<{ title: string; message: string } | null>(null);
+  // The account whose "Make default" was refused for a code: its card shows
+  // the code field, and "Make default" sends it.
+  const [stepUpId, setStepUpId] = useState<string | null>(null);
+  const [defaultCode, setDefaultCode] = useState("");
 
   const bankName = (code: string) => banks.find((b) => b.code === code)?.name ?? code;
   const invalidateAccounts = () => queryClient.invalidateQueries({ queryKey: ACCOUNTS_KEY });
@@ -59,10 +65,19 @@ export function BankRegistryScreen() {
     if (pendingId) return;
     setPendingId(account.id);
     setActionError(null);
+    const sentCode = stepUpId === account.id ? defaultCode.trim() : "";
     try {
-      await setDefaultBankAccount(account.id);
+      await setDefaultBankAccount(account.id, sentCode || undefined);
+      setStepUpId(null);
+      setDefaultCode("");
       await invalidateAccounts();
     } catch (err) {
+      if (isTwoFactorRequired(err)) {
+        setDefaultCode("");
+        setStepUpId(account.id);
+        setPrompt(await stepUpPrompt(err, !!sentCode));
+        return;
+      }
       setActionError({
         title: "Could not update default",
         message: friendlyErrorMessage(err, "Something went wrong. Please try again."),
@@ -175,6 +190,9 @@ export function BankRegistryScreen() {
                 <p className="font-mono text-sm text-muted tabular">
                   {maskAccount(account.accountNumber)} · {account.currency}
                 </p>
+                {stepUpId === account.id && (
+                  <CodeInput label="Security code" value={defaultCode} onChange={(e) => setDefaultCode(e.target.value)} />
+                )}
                 <div className="mt-1 flex items-center justify-between gap-3">
                   {account.isDefault ? (
                     <span className="text-sm text-muted">Default payout account</span>

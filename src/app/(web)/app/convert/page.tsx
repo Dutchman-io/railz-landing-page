@@ -17,7 +17,7 @@ import { featureState, useFeatures } from "@/lib/features";
 import { creditedAmount, executeBuy, executeSell, lockBuyQuote, lockSellQuote } from "@/lib/ramp";
 import { friendlyErrorMessage } from "@/lib/api";
 import { BALANCES_KEY, balanceOf, useBalances } from "@/lib/wallet";
-import { formatMoney, currencyName, isStablecoin } from "@/lib/currency";
+import { formatMoney, currencyName, isStablecoin, parseAmountInput } from "@/lib/currency";
 import { useCurrencyCatalogue } from "@/lib/currencies";
 import { useFiatForCountry } from "@/lib/countries";
 import { toNetworkOptions, useDepositNetworks } from "@/lib/depositNetworks";
@@ -80,7 +80,7 @@ export default function ConvertPage() {
 
   const params = useMemo(() => (rate ? toQuoteParameters(rate, mode) : null), [rate, mode]);
 
-  const numeric = Number(input.replace(/[^0-9.]/g, ""));
+  const numeric = parseAmountInput(input);
   const output = useMemo(() => {
     if (!params || !Number.isFinite(numeric) || numeric <= 0) return 0;
     if (mode === "buy") return calcBuy(numeric, params);

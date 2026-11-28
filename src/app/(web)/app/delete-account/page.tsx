@@ -3,11 +3,12 @@
 import { useState } from "react";
 import { useAuth } from "@/state/auth";
 import { deleteAccount } from "@/lib/account";
-import { friendlyErrorMessage } from "@/lib/api";
+import { apiErrorStatus, friendlyErrorMessage } from "@/lib/api";
+import { isTwoFactorRequired, stepUpPrompt } from "@/lib/twoFactor";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Field";
+import { CodeInput, Input } from "@/components/ui/Field";
 import { Alert } from "@/components/ui/Alert";
 import { useToast } from "@/components/ui/Toast";
 
@@ -50,16 +51,22 @@ export default function DeleteAccountPage() {
   const { signOut } = useAuth();
   const toast = useToast();
   const [confirmation, setConfirmation] = useState("");
+  const [password, setPassword] = useState("");
+  // Set by a TWO_FACTOR_REQUIRED refusal: the code field shows, with what
+  // to do above it.
+  const [codePrompt, setCodePrompt] = useState<{ title: string; message: string } | null>(null);
+  const [twoFactorCode, setTwoFactorCode] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const armed = confirmation.trim().toUpperCase() === CONFIRM_WORD;
+  const armed = confirmation.trim().toUpperCase() === CONFIRM_WORD && password.length > 0;
 
   const onDelete = async () => {
     if (!armed || busy) return;
     setBusy(true);
     setError(null);
+    const sentCode = codePrompt ? twoFactorCode.trim() : "";
     try {
-      await deleteAccount();
+      await deleteAccount({ password, twoFactorCode: sentCode || undefined });
       toast(
         `Your account is closed. The records we are required to keep are listed on this screen and are held for ${RETENTION}.`,
       );
@@ -67,6 +74,19 @@ export default function DeleteAccountPage() {
       // expires, and there is no account left for it to act on.
       await signOut();
     } catch (err) {
+      if (isTwoFactorRequired(err)) {
+        // Codes are single-use: a refused one is cleared, not resubmitted.
+        setTwoFactorCode("");
+        setCodePrompt(await stepUpPrompt(err, !!sentCode));
+        setBusy(false);
+        return;
+      }
+      if (apiErrorStatus(err) === 400 && /incorrect password/i.test(friendlyErrorMessage(err, ""))) {
+        setPassword("");
+        setError("Incorrect password. Check it and try again.");
+        setBusy(false);
+        return;
+      }
       // The server refuses while a balance is held or a transfer is in flight
       // and names which. Its message is the useful one: don't replace it.
       setError(friendlyErrorMessage(err, "Try again."));
@@ -130,6 +150,25 @@ export default function DeleteAccountPage() {
                 spellCheck={false}
                 placeholder={CONFIRM_WORD}
               />
+              <Input
+                label="Your password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
+              />
+              {codePrompt && (
+                <>
+                  <Alert tone="info">
+                    <strong className="font-semibold">{codePrompt.title}.</strong> {codePrompt.message}
+                  </Alert>
+                  <CodeInput
+                    label="Security code"
+                    value={twoFactorCode}
+                    onChange={(e) => setTwoFactorCode(e.target.value)}
+                  />
+                </>
+              )}
               {error && (
                 <Alert>
                   <strong className="font-semibold">Account not deleted.</strong> {error}

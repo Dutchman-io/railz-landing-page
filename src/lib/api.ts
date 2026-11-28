@@ -415,9 +415,11 @@ export const api = {
   ) {
     return request<T>(endpoint, { ...options, method: "PATCH", body });
   },
+  // `body` is optional: most deletes have none, but DELETE /user/delete
+  // re-authenticates with a password and code in a JSON body.
   delete<T>(
     endpoint: string,
-    options?: Omit<RequestOptions, "method" | "body">,
+    options?: Omit<RequestOptions, "method">,
   ) {
     return request<T>(endpoint, { ...options, method: "DELETE" });
   },

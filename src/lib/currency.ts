@@ -106,3 +106,14 @@ export const formatMoney = (amount: number, currency: string): string => {
     maximumFractionDigits: meta.decimals,
   })}`;
 };
+
+/**
+ * The number in an amount the user typed, or NaN. A comma is read as the
+ * decimal point ("1,5" is 1.5, never 15), and more than one separator is
+ * refused rather than guessed at.
+ */
+export const parseAmountInput = (raw: string): number => {
+  const cleaned = raw.replace(/[^0-9.,]/g, "");
+  if ((cleaned.match(/[.,]/g) ?? []).length > 1) return NaN;
+  return Number(cleaned.replace(",", "."));
+};

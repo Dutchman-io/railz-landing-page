@@ -4,12 +4,13 @@ import { useMemo, useState } from "react";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Field";
+import { CodeInput, Input } from "@/components/ui/Field";
 import { Alert } from "@/components/ui/Alert";
 import { Spinner } from "@/components/ui/Spinner";
 import { useToast } from "@/components/ui/Toast";
 import { Segment } from "@/components/send/Segment";
 import { friendlyErrorMessage } from "@/lib/api";
+import { isTwoFactorRequired, stepUpPrompt } from "@/lib/twoFactor";
 import { addBankAccount, useBanks, useResolvedAccount, type SavedBankAccount } from "@/lib/banks";
 import { useCountries } from "@/lib/countries";
 import { countryDisplayName } from "@/lib/countryDisplay";
@@ -100,6 +101,10 @@ export function AddAccountForm({
   const [beneficiaryName, setBeneficiaryName] = useState("");
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  // Set by a TWO_FACTOR_REQUIRED refusal: the code field shows, with what
+  // to do (title/message) above it.
+  const [codePrompt, setCodePrompt] = useState<{ title: string; message: string } | null>(null);
+  const [twoFactorCode, setTwoFactorCode] = useState("");
 
   // Reset selected bank and search query when destination country changes.
   const onSelectCountry = (countryCode: string) => {
@@ -165,6 +170,7 @@ export function AddAccountForm({
     if (!canSave || saving || !selectedCountry || !fiatCurrency) return;
     setSaving(true);
     setSaveError(null);
+    const sentCode = codePrompt ? twoFactorCode.trim() : "";
     try {
       const bankCode = isUs
         ? `US_${usPaymentRail}_${routingNumber}`
@@ -175,10 +181,21 @@ export function AddAccountForm({
             : isChina
               ? "STABLES_CN"
               : (selectedBank?.code ?? "DEFAULT");
-      const saved = await addBankAccount({ accountNumber, bankCode, currency: fiatCurrency });
+      const saved = await addBankAccount({
+        accountNumber,
+        bankCode,
+        currency: fiatCurrency,
+        twoFactorCode: sentCode || undefined,
+      });
       toast(`Bank account saved. Your ${selectedCountry.name} payout account is linked.`);
       onSaved(saved);
     } catch (err) {
+      if (isTwoFactorRequired(err)) {
+        // Codes are single-use: a refused one is cleared, not resubmitted.
+        setTwoFactorCode("");
+        setCodePrompt(await stepUpPrompt(err, !!sentCode));
+        return;
+      }
       setSaveError(friendlyErrorMessage(err, "Something went wrong. Please try again."));
     } finally {
       setSaving(false);
@@ -429,6 +446,16 @@ export function AddAccountForm({
               </>
             )}
           </div>
+        )}
+
+        {codePrompt && (
+          <>
+            <Alert tone="info">
+              <strong className="block">{codePrompt.title}</strong>
+              {codePrompt.message}
+            </Alert>
+            <CodeInput label="Security code" value={twoFactorCode} onChange={(e) => setTwoFactorCode(e.target.value)} />
+          </>
         )}
 
         {saveError && (

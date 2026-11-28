@@ -34,7 +34,7 @@ import { useActionReference } from "@/lib/idempotency";
 import { internationalHref, useInternationalStatus, type InternationalStatus } from "@/lib/international";
 import { useKycSummary } from "@/lib/kyc";
 import { saveRecipient, touchRecipient, useInvalidateRecipients, useRecipients, type Recipient } from "@/lib/recipients";
-import { isTwoFactorRequired, twoFactorMessage } from "@/lib/twoFactor";
+import { isTwoFactorRequired, stepUpPrompt } from "@/lib/twoFactor";
 import { BALANCES_KEY, balanceOf, useBalances } from "@/lib/wallet";
 import { useAuth } from "@/state/auth";
 import type { PaymentPurpose } from "@/types/api";
@@ -492,10 +492,7 @@ export function FiatSend({ asset }: { asset: string }) {
         // The reference is unchanged, so confirming again is the same send.
         setNeeds2fa(true);
         setTwoFactorCode("");
-        setPrompt({
-          title: sentCode ? "Code not accepted" : "Two-factor required",
-          message: twoFactorMessage(!!sentCode, err),
-        });
+        setPrompt(await stepUpPrompt(err, !!sentCode));
       } else if (PAYMENT_PURPOSE_ERROR_CODES.has(apiErrorCode(err) ?? "")) {
         // The server's message is customer-ready. Point at the picker.
         const message = friendlyErrorMessage(err, "Choose a reason for this payment.");
